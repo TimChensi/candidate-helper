@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Кандидаты">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Кандидаты</title>
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#eef2f7}*{box-sizing:border-box}body{margin:0}.shell{max-width:760px;margin:auto;padding:24px}.card{background:#fff;border-radius:24px;padding:22px;box-shadow:0 12px 40px #0f172a12}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:800;margin:0 0 6px}h1{font-size:30px;margin:0}p.sub{color:#64748b;margin:8px 0 20px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;padding:4px;border-radius:14px;margin-bottom:20px;position:sticky;top:8px;z-index:5}.tab{border:0;border-radius:11px;padding:12px;font-weight:800;background:transparent;color:#64748b}.tab.active{background:#111827;color:#fff}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:block;margin-bottom:14px}.field span,legend{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#334155}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}textarea{resize:vertical}.group{border:0;padding:0;margin:0 0 16px}.chips,.seg{display:flex;flex-wrap:wrap;gap:8px}.chips label,.seg label{position:relative}.chips input,.seg input{position:absolute;opacity:0}.chips label span,.seg label span{display:block;border:1px solid #cbd5e1;border-radius:999px;padding:9px 13px;font-weight:750}.chips input:checked+span,.seg input:checked+span{background:#111827;color:#fff;border-color:#111827}.hidden{display:none!important}.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-top:12px}.preview h2{font-size:16px;margin:0 0 10px}pre{white-space:pre-wrap;font:inherit;line-height:1.55;margin:0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.actions button{padding:13px;border-radius:12px;border:0;font-weight:800}.primary{background:#111827;color:#fff}.secondary{background:#e2e8f0}.ghost{background:#fff;border:1px solid #e2e8f0!important;grid-column:1/-1}.status{text-align:center;font-size:13px;font-weight:700;min-height:20px}.success{color:#166534}.error{color:#b91c1c}.summary{display:flex;justify-content:space-between;background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px}.small{border:0;background:none;font-weight:700;color:#475569;float:right}
+@media(max-width:640px){.shell{padding:0}.card{border-radius:0;min-height:100vh;padding:18px 14px}.grid,.actions{grid-template-columns:1fr}.ghost{grid-column:auto}.tabs{top:0}}
+</style>
+</head>
+<body>
+<main class="shell"><section class="card">
+<p class="eyebrow">Работа с кандидатами</p><h1>Кандидаты</h1><p class="sub">Согласование и подготовка сообщения.</p>
+<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="message">Сообщение</button></nav>
+
+<section id="agreement" class="panel active">
+<form id="candidateForm">
+<div class="grid"><label class="field"><span>ФИО *</span><input id="fullName" required></label><label class="field"><span>Возраст *</span><input id="age" type="number" min="18" max="99" required></label></div>
+<label class="field"><span>Телефон *</span><input id="phone" type="tel" inputmode="tel" required></label>
+<div class="grid"><label class="field"><span>Гражданство *</span><input id="citizenship" value="РФ" required></label><label class="field"><span>Город проживания *</span><input id="residenceCity" required></label></div>
+<fieldset class="group"><legend>Категория военного билета *</legend><div class="chips">
+<label><input type="radio" name="militaryCategory" value="А" required><span>А</span></label><label><input type="radio" name="militaryCategory" value="Б" ><span>Б</span></label><label><input type="radio" name="militaryCategory" value="В" ><span>В</span></label><label><input type="radio" name="militaryCategory" value="Г" ><span>Г</span></label><label><input type="radio" name="militaryCategory" value="Д" ><span>Д</span></label><label><input type="radio" name="militaryCategory" value="Не помнит" ><span>Не помнит</span></label>
+</div></fieldset>
+<fieldset class="group"><legend>Ограничения по здоровью *</legend><div class="seg"><label><input type="radio" name="health" value="Нет" checked><span>Нет</span></label><label><input type="radio" name="health" value="Да"><span>Да</span></label></div><label id="healthWrap" class="field hidden"><span>Какие ограничения</span><textarea id="healthDetails"></textarea></label></fieldset>
+<fieldset class="group"><legend>Инвалидность *</legend><div class="seg"><label><input type="radio" name="disability" value="Нет" checked><span>Нет</span></label><label><input type="radio" name="disability" value="Да"><span>Да</span></label></div></fieldset>
+<label class="field"><span>Пожелания по направлению</span><textarea id="directionWish"></textarea></label>
+<fieldset class="group"><legend>Судимости *</legend><div class="seg"><label><input type="radio" name="criminal" value="Нет" checked><span>Нет</span></label><label><input type="radio" name="criminal" value="Да"><span>Да</span></label></div><label id="criminalWrap" class="field hidden"><span>Статья / статьи</span><textarea id="criminalDetails"></textarea></label></fieldset>
+<fieldset class="group"><legend>Водительское удостоверение</legend><div class="chips"><label><input type="checkbox" name="license" value="A"><span>A</span></label><label><input type="checkbox" name="license" value="B"><span>B</span></label><label><input type="checkbox" name="license" value="C"><span>C</span></label><label><input type="checkbox" name="license" value="D"><span>D</span></label><label><input type="checkbox" name="license" value="E"><span>E</span></label><label><input type="checkbox" id="tractor"><span>Тракторные: все типы</span></label></div><label class="field" style="margin-top:10px"><span>Другие права / уточнение</span><input id="licenseNotes"></label></fieldset>
+<div class="grid"><label class="field"><span>Готовность отправления *</span><select id="readiness"><option>Готов сейчас</option><option>В течение 1–3 дней</option><option>В течение недели</option><option>По конкретной дате</option><option>Другое</option></select></label><label class="field"><span>Город отправления *</span><input id="departureCity" required></label></div>
+<label id="readinessWrap" class="field hidden"><span>Уточнение по готовности</span><input id="readinessDetails"></label>
+<div class="preview"><button type="button" class="small" id="refresh">Обновить</button><h2>Готовое согласование</h2><pre id="agreementPreview"></pre></div>
+<div class="actions"><button type="button" class="primary" id="copyAgreement">Скопировать</button><button type="button" class="secondary" id="saveCandidate">Сохранить в Google Таблицу</button><button type="reset" class="ghost">Очистить</button></div>
+<p id="agreementStatus" class="status"></p>
+</form>
+</section>
+
+<section id="message" class="panel">
+<form id="messageForm">
+<div class="grid"><label class="field"><span>Имя отправителя</span><input id="senderName" value="Артем"></label><label class="field"><span>Имя кандидата</span><input id="candidateName"></label></div>
+<label class="field"><span>Должность / направление *</span><input id="position" required placeholder="МОГ (охрана воздушного пространства)"></label>
+<div class="grid"><label class="field"><span>Город оформления *</span><select id="city"><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Казань</option><option>Татарстан</option></select></label><label id="lipetskWrap" class="field hidden"><span>Вариант Липецка</span><select id="lipetskType"><option value="БПЛА">БПЛА — 3,6 млн ₽</option><option value="Обычный">Обычный — 3,1 млн ₽</option></select></label></div>
+<fieldset class="group"><legend>Формат сообщения</legend><div class="seg"><label><input type="radio" name="mode" value="short" checked><span>Короткий</span></label><label><input type="radio" name="mode" value="full"><span>Подробнее</span></label></div></fieldset>
+<div id="citySummary" class="summary"></div>
+<div class="preview"><h2>Готовое сообщение</h2><pre id="messagePreview"></pre></div>
+<div class="actions"><button type="button" class="primary" id="copyMessage">Скопировать сообщение</button><button type="reset" class="ghost">Очистить</button></div>
+<p id="messageStatus" class="status"></p>
+</form>
+</section>
+</section></main>
+<script>
+const GOOGLE_SCRIPT_URL="PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 000 000 ₽"],"Липецк":["3 600 000 ₽","3 100 000 ₽"],"Оренбург":["2 000 000 ₽"],"Воронеж":["2 600 000 ₽"],"Тула":["2 500 000 ₽"],"Казань":["2 900 000 ₽"],"Татарстан":["2 900 000 ₽"]};
+const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});
+const form=$("candidateForm");
+function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права — все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
+function data(){let h=radio("health",form),c=radio("criminal",form),r=$("readiness").value,rd=$("readinessDetails").value.trim();return{fullName:$("fullName").value.trim(),age:$("age").value,phone:$("phone").value.trim(),citizenship:$("citizenship").value.trim(),residenceCity:$("residenceCity").value.trim(),militaryCategory:radio("militaryCategory",form),healthLimits:h==="Да"?"Да — "+($("healthDetails").value.trim()||"не уточнено"):"Нет",disability:radio("disability",form),directionWish:$("directionWish").value.trim()||"Не указано",criminalRecord:c==="Да"?"Да — "+($("criminalDetails").value.trim()||"статья не указана"):"Нет",driverLicense:licenses(),departureReadiness:rd&&["По конкретной дате","Другое"].includes(r)?r+": "+rd:r,departureCity:$("departureCity").value.trim()}}
+function agreementText(d=data()){return["Согласование кандидата","1. ФИО: "+(d.fullName||"—"),"2. Возраст: "+(d.age||"—"),"3. Телефон: "+(d.phone||"—"),"4. Гражданство: "+(d.citizenship||"—")+"; город проживания: "+(d.residenceCity||"—"),"5. Категория военного билета: "+(d.militaryCategory||"—"),"6. Ограничения по здоровью: "+d.healthLimits,"7. Инвалидность: "+d.disability,"8. Пожелания по направлению: "+d.directionWish,"9. Судимости: "+d.criminalRecord,"10. ВУ: "+d.driverLicense,"11. Готовность отправления: "+d.departureReadiness,"12. Город отправления: "+(d.departureCity||"—")].join("\n")}
+function conditional(){$("healthWrap").classList.toggle("hidden",radio("health",form)!=="Да");$("criminalWrap").classList.toggle("hidden",radio("criminal",form)!=="Да");$("readinessWrap").classList.toggle("hidden",!["По конкретной дате","Другое"].includes($("readiness").value));$("agreementPreview").textContent=agreementText()}
+form.addEventListener("input",conditional);form.addEventListener("change",conditional);$("refresh").onclick=conditional;
+async function copy(t,status){try{await navigator.clipboard.writeText(t)}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove()}status.textContent="Скопировано";status.className="status success"}
+$("copyAgreement").onclick=()=>{if(form.reportValidity())copy(agreementText(),$("agreementStatus"))};
+$("saveCandidate").onclick=async()=>{if(!form.reportValidity())return;if(GOOGLE_SCRIPT_URL.includes("PASTE_GOOGLE")){$("agreementStatus").textContent="Google Apps Script ещё не подключён";$("agreementStatus").className="status error";return}let p=data();p.agreementText=agreementText(p);$("agreementStatus").textContent="Отправка…";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});$("agreementStatus").textContent="Отправлено в Google Таблицу";$("agreementStatus").className="status success"}catch(e){$("agreementStatus").textContent="Ошибка отправки";$("agreementStatus").className="status error"}};
+form.onreset=()=>setTimeout(()=>{conditional();$("agreementStatus").textContent=""},0);
+const mf=$("messageForm");function payout(){let a=CITY_DATA[$("city").value];return $("city").value==="Липецк"&&$("lipetskType").value==="Обычный"?a[1]:a[0]}
+function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"—",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="full")return[g,"Меня зовут "+sender+". Направляю основную информацию по оформлению в МО по направлению «"+pos+"».","", "Город оформления: "+city,"Единовременная выплата при подписании контракта: "+pay,"Ежемесячное денежное довольствие: от 210 000 ₽.","","Для первичного согласования нужны:","— паспорт: фото 1–2 страниц;","— военный билет: фото 1–2 страниц.","","Индивидуальные условия и возможность оформления подтверждаются после согласования документов."].join("\n");return[g,"Меня зовут "+sender+". Пишу по поводу оформления в МО по направлению «"+pos+"».","", "Оформление проходит в городе "+city+". Единовременная выплата — "+pay+", ежемесячное денежное довольствие — от 210 000 ₽.","","Для согласования пришлите, пожалуйста:","— паспорт: фото 1–2 страниц;","— военный билет: фото 1–2 страниц.","","После согласования перейдём к вопросу проезда и дальнейшего оформления."].join("\n")}
+function updateMsg(){let lip=$("city").value==="Липецк";$("lipetskWrap").classList.toggle("hidden",!lip);$("citySummary").innerHTML="<strong>"+$("city").value+"</strong><span>ЕДВ: "+payout()+"</span>";$("messagePreview").textContent=msg()}
+mf.addEventListener("input",updateMsg);mf.addEventListener("change",updateMsg);$("copyMessage").onclick=()=>{if(mf.reportValidity())copy(msg(),$("messageStatus"))};mf.onreset=()=>setTimeout(updateMsg,0);
+conditional();updateMsg();if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js"));
+</script>
+</body></html>

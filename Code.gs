@@ -21,7 +21,7 @@ function doPost(e) {
     lock.waitLock(10000);
     const d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (!d.phone) throw new Error('Не заполнен телефон');
-    const unknown = 'Не передал информацию';
+    const unknown = 'Не дал ответ';
     const v = x => (x == null || String(x).trim() === '') ? unknown : x;
     const row = [new Date(),d.phone,v(d.contactStatus),v(d.fullName),v(d.age),v(d.residenceCity),v(d.registrationCity),v(d.citizenship),v(d.militaryCategory),v(d.healthLimits),v(d.disability),v(d.criminalRecord),v(d.driverLicense),v(d.directionWish),v(d.departureReadiness),v(d.agreementText)].map((x,i)=>i===0?x:safeCell(x));
     const sheet=getCandidateSheet_();

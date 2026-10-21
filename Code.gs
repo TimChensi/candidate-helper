@@ -20,8 +20,10 @@ function doPost(e) {
   try {
     lock.waitLock(10000);
     const d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-    if (!d.fullName || !d.phone) throw new Error('Не заполнены ФИО или телефон');
-    const row = [new Date(),d.phone,d.contactStatus,d.fullName,d.age,d.residenceCity,d.registrationCity,d.citizenship,d.militaryCategory,d.healthLimits,d.disability,d.criminalRecord,d.driverLicense,d.directionWish,d.departureReadiness,d.agreementText].map((v,i)=>i===0?v:safeCell(v));
+    if (!d.phone) throw new Error('Не заполнен телефон');
+    const unknown = 'Не передал информацию';
+    const v = x => (x == null || String(x).trim() === '') ? unknown : x;
+    const row = [new Date(),d.phone,v(d.contactStatus),v(d.fullName),v(d.age),v(d.residenceCity),v(d.registrationCity),v(d.citizenship),v(d.militaryCategory),v(d.healthLimits),v(d.disability),v(d.criminalRecord),v(d.driverLicense),v(d.directionWish),v(d.departureReadiness),v(d.agreementText)].map((x,i)=>i===0?x:safeCell(x));
     const sheet=getCandidateSheet_();
     sheet.getRange(sheet.getLastRow()+1,1,1,row.length).setValues([row]);
     return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);

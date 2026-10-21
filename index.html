@@ -23,6 +23,14 @@
 <section id="agreement" class="panel active">
 <form id="candidateForm">
 <label class="field"><span>Телефон *</span><input id="phone" type="tel" inputmode="tel" required></label>
+<label class="field"><span>Статус контакта</span><select id="contactStatus">
+<option value="">Не указан</option>
+<option value="НДЗ 1">НДЗ 1</option>
+<option value="НДЗ 2">НДЗ 2</option>
+<option value="Отказ — контракт не интересен">Отказ — контракт не интересен</option>
+<option value="Уже на контракте">Уже на контракте</option>
+<option value="Офицер — предложение не рассматривает">Офицер — предложение не рассматривает</option>
+</select></label>
 <div class="grid"><label class="field"><span>ФИО *</span><input id="fullName" required></label><label class="field"><span>Возраст *</span><input id="age" type="number" min="18" max="99" required></label></div>
 <div class="grid"><label class="field"><span>Город проживания *</span><input id="residenceCity" required></label><label class="field"><span>Город прописки *</span><input id="registrationCity" required></label></div>
 <label class="field"><span>Гражданство *</span><input id="citizenship" value="РФ" required></label>
@@ -61,8 +69,8 @@ const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});
 const form=$("candidateForm");
 function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права — все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
-function data(){let h=radio("health",form),c=radio("criminal",form);return{phone:$("phone").value.trim(),fullName:$("fullName").value.trim(),age:$("age").value,citizenship:$("citizenship").value.trim(),residenceCity:$("residenceCity").value.trim(),registrationCity:$("registrationCity").value.trim(),militaryCategory:radio("militaryCategory",form),healthLimits:h==="Да"?"Да — "+($("healthDetails").value.trim()||"не уточнено"):"Нет",disability:radio("disability",form),criminalRecord:c==="Да"?"Да — "+($("criminalDetails").value.trim()||"статья не указана"):"Нет",driverLicense:licenses(),directionWish:$("directionWish").value.trim()||"Не указано",departureReadiness:$("readiness").value.trim()}}
-function agreementText(d=data()){return["Согласование кандидата","1. Телефон: "+(d.phone||"—"),"2. ФИО: "+(d.fullName||"—"),"3. Возраст: "+(d.age||"—"),"4. Город проживания: "+(d.residenceCity||"—"),"5. Город прописки: "+(d.registrationCity||"—"),"6. Гражданство: "+(d.citizenship||"—"),"7. Категория военного билета: "+(d.militaryCategory||"—"),"8. Ограничения по здоровью: "+d.healthLimits,"9. Инвалидность: "+d.disability,"10. Судимости: "+d.criminalRecord,"11. ВУ: "+d.driverLicense,"12. Пожелания по направлению: "+d.directionWish,"13. Готовность отправления: "+(d.departureReadiness||"—")].join("\n")}
+function data(){let h=radio("health",form),c=radio("criminal",form);return{phone:$("phone").value.trim(),contactStatus:$("contactStatus").value,fullName:$("fullName").value.trim(),age:$("age").value,citizenship:$("citizenship").value.trim(),residenceCity:$("residenceCity").value.trim(),registrationCity:$("registrationCity").value.trim(),militaryCategory:radio("militaryCategory",form),healthLimits:h==="Да"?"Да — "+($("healthDetails").value.trim()||"не уточнено"):"Нет",disability:radio("disability",form),criminalRecord:c==="Да"?"Да — "+($("criminalDetails").value.trim()||"статья не указана"):"Нет",driverLicense:licenses(),directionWish:$("directionWish").value.trim()||"Не указано",departureReadiness:$("readiness").value.trim()}}
+function agreementText(d=data()){return["Согласование кандидата","1. Телефон: "+(d.phone||"—"),"2. Статус контакта: "+(d.contactStatus||"—"),"3. ФИО: "+(d.fullName||"—"),"4. Возраст: "+(d.age||"—"),"5. Город проживания: "+(d.residenceCity||"—"),"6. Город прописки: "+(d.registrationCity||"—"),"7. Гражданство: "+(d.citizenship||"—"),"8. Категория военного билета: "+(d.militaryCategory||"—"),"9. Ограничения по здоровью: "+d.healthLimits,"10. Инвалидность: "+d.disability,"11. Судимости: "+d.criminalRecord,"12. ВУ: "+d.driverLicense,"13. Пожелания по направлению: "+d.directionWish,"14. Готовность отправления: "+(d.departureReadiness||"—")].join("\n")}
 function conditional(){$("healthWrap").classList.toggle("hidden",radio("health",form)!=="Да");$("criminalWrap").classList.toggle("hidden",radio("criminal",form)!=="Да");$("agreementPreview").textContent=agreementText()}
 form.addEventListener("input",conditional);form.addEventListener("change",conditional);$("refresh").onclick=conditional;
 async function copy(t,status){try{await navigator.clipboard.writeText(t)}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove()}status.textContent="Скопировано";status.className="status success"}
@@ -70,7 +78,46 @@ $("copyAgreement").onclick=()=>{if(form.reportValidity())copy(agreementText(),$(
 $("saveCandidate").onclick=async()=>{if(!form.reportValidity())return;if(GOOGLE_SCRIPT_URL.includes("PASTE_GOOGLE")){$("agreementStatus").textContent="Google Apps Script ещё не подключён";$("agreementStatus").className="status error";return}let p=data();p.agreementText=agreementText(p);$("agreementStatus").textContent="Отправка…";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});$("agreementStatus").textContent="Отправлено в Google Таблицу";$("agreementStatus").className="status success"}catch(e){$("agreementStatus").textContent="Ошибка отправки";$("agreementStatus").className="status error"}};
 form.onreset=()=>setTimeout(()=>{conditional();$("agreementStatus").textContent=""},0);
 const mf=$("messageForm");function payout(){let a=CITY_DATA[$("city").value];return $("city").value==="Липецк"&&$("lipetskType").value==="Обычный"?a[1]:a[0]}
-function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"—",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="full")return[g,"Меня зовут "+sender+". Направляю основную информацию по оформлению в МО по направлению «"+pos+"».","", "Город оформления: "+city,"Единовременная выплата при подписании контракта: "+pay,"Ежемесячное денежное довольствие: от 210 000 ₽.","","Для первичного согласования нужны:","— паспорт: фото 1–2 страниц;","— военный билет: фото 1–2 страниц.","","Индивидуальные условия и возможность оформления подтверждаются после согласования документов."].join("\n");return[g,"Меня зовут "+sender+". Пишу по поводу оформления в МО по направлению «"+pos+"».","", "Оформление проходит в городе "+city+". Единовременная выплата — "+pay+", ежемесячное денежное довольствие — от 210 000 ₽.","","Для согласования пришлите, пожалуйста:","— паспорт: фото 1–2 страниц;","— военный билет: фото 1–2 страниц.","","После согласования перейдём к вопросу проезда и дальнейшего оформления."].join("\n")}
+function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"—",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="full")return[
+g,
+"Меня зовут "+sender+". По поводу оформления в МО по направлению «"+pos+"».",
+"",
+"Оформляемся в городе "+city+".",
+"❗ЕДИНОРАЗОВАЯ ВЫПЛАТА "+pay+" ЗА ПОДПИСАНИЕ КОНТРАКТА.❗",
+"Ежемесячная выплата — от 210 000 ₽.",
+"",
+"Оплачиваем",
+"1. Проезд до регионов",
+"2. Проживание и питание",
+"3. Также обеспечиваем трансфер до пункта приёма.",
+"",
+"🧾 Условия:",
+"✅ Обучение на полигоне",
+"✅ Контракт от 1 года, отпуск каждые 6 мес. по 2 недели.",
+"✅ Все федеральные льготы военнослужащим предоставляются",
+"✅ Все проблемы с ФСИН и МВД - решаются",
+"✅ Получение удостоверения и статуса Ветерана боевых действий",
+"✅ Гражданство значения не имеет",
+"✅ Списываем долги до 10 млн рублей",
+"✅ Наличие судимостей значения не имеет",
+"✅ Лучшая доступная экипировка",
+"✅ С момента приезда до подписания контракта и отправки в воинскую часть не более двух дней.",
+"",
+"Для согласования отношения и покупки билета нужны:",
+"- паспорт: фото 1–2 страниц",
+"- военный билет: фото 1–2 страниц",
+"- СНИЛС и ИНН"
+].join("\n");return[
+g,
+"Меня зовут "+sender+". По поводу оформления в МО по направлению «"+pos+"».",
+"",
+"Оформляемся в городе "+city+", выплата "+pay+" и зп от 210 тыс. руб.",
+"",
+"Для согласования отношения и покупки билета нужны:",
+"- паспорт: фото 1–2 страниц",
+"- военный билет: фото 1–2 страниц",
+"- СНИЛС и ИНН"
+].join("\n")}
 function updateMsg(){let lip=$("city").value==="Липецк";$("lipetskWrap").classList.toggle("hidden",!lip);$("citySummary").innerHTML="<strong>"+$("city").value+"</strong><span>ЕДВ: "+payout()+"</span>";$("messagePreview").textContent=msg()}
 mf.addEventListener("input",updateMsg);mf.addEventListener("change",updateMsg);$("copyMessage").onclick=()=>{if(mf.reportValidity())copy(msg(),$("messageStatus"))};mf.onreset=()=>setTimeout(updateMsg,0);
 conditional();updateMsg();if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js"));

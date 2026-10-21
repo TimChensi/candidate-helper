@@ -1,1 +1,18 @@
-{"name":"Кандидаты","short_name":"Кандидаты","start_url":"./","scope":"./","display":"standalone","background_color":"#ffffff","theme_color":"#111827","lang":"ru-RU"}
+{
+  "name": "Кандидаты",
+  "short_name": "Кандидаты",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111827",
+  "lang": "ru-RU",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

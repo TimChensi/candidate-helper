@@ -1,6 +1,6 @@
 const SPREADSHEET_ID = '1VOjhFMR86KeRO3JJoEXEwJ0TA7bBPlHD5hF64-wbI9Y';
 const SHEET_NAME = 'Кандидаты';
-const HEADERS = ['Дата добавления','Телефон','ФИО','Возраст','Город проживания','Город прописки','Гражданство','Категория ВБ','Ограничения по здоровью','Инвалидность','Судимости','ВУ','Пожелания по направлению','Готовность отправления','Готовый текст'];
+const HEADERS = ['Дата добавления','Телефон','Статус контакта','ФИО','Возраст','Город проживания','Город прописки','Гражданство','Категория ВБ','Ограничения по здоровью','Инвалидность','Судимости','ВУ','Пожелания по направлению','Готовность отправления','Готовый текст'];
 
 function safeCell(value) {
   const text = String(value ?? '').trim();
@@ -21,7 +21,7 @@ function doPost(e) {
     lock.waitLock(10000);
     const d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (!d.fullName || !d.phone) throw new Error('Не заполнены ФИО или телефон');
-    const row = [new Date(),d.phone,d.fullName,d.age,d.residenceCity,d.registrationCity,d.citizenship,d.militaryCategory,d.healthLimits,d.disability,d.criminalRecord,d.driverLicense,d.directionWish,d.departureReadiness,d.agreementText].map((v,i)=>i===0?v:safeCell(v));
+    const row = [new Date(),d.phone,d.contactStatus,d.fullName,d.age,d.residenceCity,d.registrationCity,d.citizenship,d.militaryCategory,d.healthLimits,d.disability,d.criminalRecord,d.driverLicense,d.directionWish,d.departureReadiness,d.agreementText].map((v,i)=>i===0?v:safeCell(v));
     const sheet=getCandidateSheet_();
     sheet.getRange(sheet.getLastRow()+1,1,1,row.length).setValues([row]);
     return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);

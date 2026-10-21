@@ -8,7 +8,7 @@
 
 ## Google Таблица
 Используется таблица:
-https://docs.google.com/spreadsheets/d/1VOjhFMR86KeRO3JJoEXEwJ0TA7bBPlHD5hF64-wbI9Y/edit
+https://docs.google.com/spreadsheets/d/16xoI3uN2-wgVq2qNNu1y8SKGHaYj1phJES3tJ-zVlpQ/edit
 
 1. Открой таблицу → Расширения → Apps Script.
 2. Вставь содержимое `Code.gs`.

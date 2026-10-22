@@ -1,5 +1,6 @@
 const SPREADSHEET_ID = '16xoI3uN2-wgVq2qNNu1y8SKGHaYj1phJES3tJ-zVlpQ';
 const SHEET_NAME = 'Кандидаты';
+const API_VERSION = '2026-10-22-v2';
 const HEADERS = ['Дата добавления','Чей кандидат','Телефон','Статус контакта','ФИО','Возраст','Город проживания','Город прописки','Город оформления','Гражданство','Категория ВБ','Ограничения по здоровью','Инвалидность','Судимости','ВУ','Пожелания по направлению','Готовность отправления','Готовый текст'];
 
 function safeCell(value) {
@@ -11,8 +12,13 @@ function getCandidateSheet_() {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-  if (sheet.getLastRow() === 0) sheet.appendRow(HEADERS);
-  sheet.getRange(1,1,1,HEADERS.length).setValues([HEADERS]);
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1,1,1,HEADERS.length).setValues([HEADERS]);
+  } else {
+    const currentHeaders = sheet.getRange(1,1,1,HEADERS.length).getDisplayValues()[0];
+    const schemaOk = HEADERS.every((header, i) => currentHeaders[i] === header);
+    if (!schemaOk) throw new Error('Схема листа Кандидаты не совпадает с текущей версией API');
+  }
   sheet.setFrozenRows(1);
   return sheet;
 }
@@ -70,7 +76,7 @@ function doPost(e) {
     const writeRow = existingRow || findWriteRow_(sheet);
     sheet.getRange(writeRow,1,1,row.length).setValues([row]);
 
-    return ContentService.createTextOutput(JSON.stringify({ok:true}))
+    return ContentService.createTextOutput(JSON.stringify({ok:true,row:writeRow,version:API_VERSION}))
       .setMimeType(ContentService.MimeType.JSON);
   } catch(err) {
     return ContentService.createTextOutput(JSON.stringify({ok:false,error:String(err)}))
@@ -81,5 +87,5 @@ function doPost(e) {
 }
 
 function doGet() {
-  return ContentService.createTextOutput('Candidate Helper API is running');
+  return ContentService.createTextOutput('Candidate Helper API ' + API_VERSION + ' is running');
 }

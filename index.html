@@ -29,7 +29,7 @@
 <datalist id="contactStatusOptions">
 <option value="НДЗ 1"></option>
 <option value="НДЗ 2"></option>
-<option value="Отказ — контракт не интересен"></option>
+<option value="Отказ - контракт не интересен"></option>
 <option value="Уже на контракте"></option>
 <option value="Женщина"></option>
 <option value="Офицер"></option>
@@ -58,7 +58,7 @@
 <form id="messageForm">
 <div class="grid"><label class="field"><span>Имя отправителя</span><input id="senderName" value="Артем"></label><label class="field"><span>Имя кандидата</span><input id="candidateName"></label></div>
 <label class="field"><span>Должность / направление *</span><input id="position" required placeholder="МОГ (охрана воздушного пространства)"></label>
-<div class="grid"><label class="field"><span>Город оформления *</span><select id="city"><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Казань</option><option>Татарстан</option></select></label><label id="lipetskWrap" class="field hidden"><span>Вариант Липецка</span><select id="lipetskType"><option value="БПЛА">БПЛА — 3,6 млн ₽</option><option value="Обычный">Обычный — 3,1 млн ₽</option></select></label></div>
+<div class="grid"><label class="field"><span>Город оформления *</span><select id="city"><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Казань</option><option>Татарстан</option></select></label><label id="lipetskWrap" class="field hidden"><span>Вариант Липецка</span><select id="lipetskType"><option value="БПЛА">БПЛА - 3,6 млн ₽</option><option value="Обычный">Обычный - 3,1 млн ₽</option></select></label></div>
 <fieldset class="group"><legend>Формат сообщения</legend><div class="seg"><label><input type="radio" name="mode" value="short" checked><span>Короткий</span></label><label><input type="radio" name="mode" value="full"><span>Подробнее</span></label><label><input type="radio" name="mode" value="mog"><span>Подробнее про МОГ</span></label></div></fieldset>
 <div id="citySummary" class="summary"></div>
 <div class="preview"><h2>Готовое сообщение</h2><pre id="messagePreview"></pre></div>
@@ -73,9 +73,9 @@ const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 0
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});
 const form=$("candidateForm");
-function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права — все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
-function data(){const unknown="Не дал ответ";let h=radio("health",form)||unknown,c=radio("criminal",form)||unknown;const val=id=>$(id).value.trim()||unknown;return{candidateOwner:$("candidateOwner").value,phone:$("phone").value.trim(),contactStatus:$("contactStatus").value||unknown,fullName:val("fullName"),age:val("age"),citizenship:val("citizenship"),residenceCity:val("residenceCity"),registrationCity:val("registrationCity"),processingCity:$("processingCity").value||unknown,militaryCategory:radio("militaryCategory",form)||unknown,healthLimits:h==="Да"?"Да — "+($("healthDetails").value.trim()||unknown):h,disability:radio("disability",form)||unknown,criminalRecord:c==="Да"?"Да — "+($("criminalDetails").value.trim()||unknown):c,driverLicense:licenses()==="Нет / не указано"?unknown:licenses(),directionWish:val("directionWish"),departureReadiness:val("readiness")}}
-function agreementText(d=data()){return["Согласование кандидата","1. Чей кандидат: "+(d.candidateOwner||"—"),"2. Телефон: "+(d.phone||"—"),"3. Статус контакта: "+(d.contactStatus||"—"),"4. ФИО: "+(d.fullName||"—"),"5. Возраст: "+(d.age||"—"),"6. Город проживания: "+(d.residenceCity||"—"),"7. Город прописки: "+(d.registrationCity||"—"),"8. Гражданство: "+(d.citizenship||"—"),"9. Категория военного билета: "+(d.militaryCategory||"—"),"10. Ограничения по здоровью: "+d.healthLimits,"11. Инвалидность: "+d.disability,"12. Судимости: "+d.criminalRecord,"13. ВУ: "+d.driverLicense,"14. Пожелания по направлению: "+d.directionWish,"15. Готовность отправления: "+(d.departureReadiness||"—"),"16. Город оформления: "+(d.processingCity||"—")].join("\n")}
+function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права - все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
+function data(){const unknown="Не дал ответ";let h=radio("health",form)||unknown,c=radio("criminal",form)||unknown;const val=id=>$(id).value.trim()||unknown;return{candidateOwner:$("candidateOwner").value,phone:$("phone").value.trim(),contactStatus:$("contactStatus").value||unknown,fullName:val("fullName"),age:val("age"),citizenship:val("citizenship"),residenceCity:val("residenceCity"),registrationCity:val("registrationCity"),processingCity:$("processingCity").value||unknown,militaryCategory:radio("militaryCategory",form)||unknown,healthLimits:h==="Да"?"Да - "+($("healthDetails").value.trim()||unknown):h,disability:radio("disability",form)||unknown,criminalRecord:c==="Да"?"Да - "+($("criminalDetails").value.trim()||unknown):c,driverLicense:licenses()==="Нет / не указано"?unknown:licenses(),directionWish:val("directionWish"),departureReadiness:val("readiness")}}
+function agreementText(d=data()){return["Согласование кандидата","1. Чей кандидат: "+(d.candidateOwner||"-"),"2. Телефон: "+(d.phone||"-"),"3. Статус контакта: "+(d.contactStatus||"-"),"4. ФИО: "+(d.fullName||"-"),"5. Возраст: "+(d.age||"-"),"6. Город проживания: "+(d.residenceCity||"-"),"7. Город прописки: "+(d.registrationCity||"-"),"8. Гражданство: "+(d.citizenship||"-"),"9. Категория военного билета: "+(d.militaryCategory||"-"),"10. Ограничения по здоровью: "+d.healthLimits,"11. Инвалидность: "+d.disability,"12. Судимости: "+d.criminalRecord,"13. ВУ: "+d.driverLicense,"14. Пожелания по направлению: "+d.directionWish,"15. Готовность отправления: "+(d.departureReadiness||"-"),"16. Город оформления: "+(d.processingCity||"-")].join("\n")}
 function conditional(){$("healthWrap").classList.toggle("hidden",radio("health",form)!=="Да");$("criminalWrap").classList.toggle("hidden",radio("criminal",form)!=="Да");$("agreementPreview").textContent=agreementText()}
 form.addEventListener("input",conditional);form.addEventListener("change",conditional);$("refresh").onclick=conditional;
 async function copy(t,status){try{await navigator.clipboard.writeText(t)}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove()}status.textContent="Скопировано";status.className="status success"}
@@ -83,18 +83,18 @@ $("copyAgreement").onclick=()=>{if(form.reportValidity())copy(agreementText(),$(
 $("saveCandidate").onclick=async()=>{if(!form.reportValidity())return;if(GOOGLE_SCRIPT_URL.includes("PASTE_GOOGLE")){$("agreementStatus").textContent="Google Apps Script ещё не подключён";$("agreementStatus").className="status error";return}const btn=$("saveCandidate");if(btn.disabled)return;btn.disabled=true;const oldText=btn.textContent;btn.textContent="Сохранение…";let p=data();p.agreementText=agreementText(p);$("agreementStatus").textContent="Отправка…";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});$("agreementStatus").textContent="Запрос отправлен в Google Таблицу";$("agreementStatus").className="status success"}catch(e){$("agreementStatus").textContent="Ошибка отправки";$("agreementStatus").className="status error"}finally{setTimeout(()=>{btn.disabled=false;btn.textContent=oldText},1500)}};
 form.onreset=()=>setTimeout(()=>{conditional();$("agreementStatus").textContent=""},0);
 const mf=$("messageForm");function payout(){let a=CITY_DATA[$("city").value];return $("city").value==="Липецк"&&$("lipetskType").value==="Обычный"?a[1]:a[0]}
-function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"—",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="mog")return[
+function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"-",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="mog")return[
 "Если подробнее по самому формату работы:",
 "",
-"Мобильные огневые группы базируются в Санкт-Петербурге (Ленинградская область) и Москве (Московская область). Основная задача подразделения — защита воздушного пространства от БПЛА.",
+"Мобильные огневые группы базируются в Санкт-Петербурге (Ленинградская область) и Москве (Московская область). Основная задача подразделения - защита воздушного пространства от БПЛА.",
 "",
 "Работа осуществляется на автомобилях-пикапах с установленным оборудованием. Формат работы посменный: задачи выполняются по поступающим командам.",
 "",
 "В составе группы есть несколько основных должностей:",
-"— водитель;",
-"— механик;",
-"— наводчик;",
-"— стрелок на установке.",
+"- водитель;",
+"- механик;",
+"- наводчик;",
+"- стрелок на установке.",
 "",
 "Конкретная должность определяется с учётом ваших навыков, опыта и пожеланий.",
 "",
@@ -102,7 +102,7 @@ function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").v
 "",
 "До поездки сначала проводится согласование кандидата и оформляется отношение в подразделение. После подтверждения организуется выезд в город оформления.",
 "",
-"По приезде вас встречает представитель и сопровождает по этапам. Само оформление обычно занимает 1–2 дня в зависимости от времени приезда и прохождения необходимых процедур.",
+"По приезде вас встречает представитель и сопровождает по этапам. Само оформление обычно занимает 1-2 дня в зависимости от времени приезда и прохождения необходимых процедур.",
 "",
 "Если направление вам подходит, напишите, готовы ли вы его рассматривать и примерно в какие сроки сможете принять решение. Места зависят от текущего комплектования групп и количества автомобилей."
 ].join("\n");if(mode==="full")return[
@@ -111,7 +111,7 @@ g,
 "",
 "Оформляемся в городе "+city+".",
 "❗ЕДИНОРАЗОВАЯ ВЫПЛАТА "+pay+" ЗА ПОДПИСАНИЕ КОНТРАКТА.❗",
-"Ежемесячная выплата — от 210 000 ₽.",
+"Ежемесячная выплата - от 210 000 ₽.",
 "",
 "Оплачиваем",
 "1. Проезд до регионов",
@@ -131,8 +131,8 @@ g,
 "✅ С момента приезда до подписания контракта и отправки в воинскую часть не более двух дней.",
 "",
 "Для согласования отношения и покупки билета нужны:",
-"- паспорт: фото 1–2 страниц",
-"- военный билет: фото 1–2 страниц",
+"- паспорт: фото 1-2 страниц",
+"- военный билет: фото 1-2 страниц",
 "- СНИЛС и ИНН"
 ].join("\n");return[
 g,
@@ -141,8 +141,8 @@ g,
 "Оформляемся в городе "+city+", выплата "+pay+" и зп от 210 тыс. руб.",
 "",
 "Для согласования отношения и покупки билета нужны:",
-"- паспорт: фото 1–2 страниц",
-"- военный билет: фото 1–2 страниц",
+"- паспорт: фото 1-2 страниц",
+"- военный билет: фото 1-2 страниц",
 "- СНИЛС и ИНН"
 ].join("\n")}
 function updateMsg(){let mode=radio("mode",mf),lip=$("city").value==="Липецк";$("position").required=mode!=="mog";$("lipetskWrap").classList.toggle("hidden",!lip);$("citySummary").innerHTML=mode==="mog"?"<strong>"+$("city").value+"</strong><span>Доп. текст про МОГ</span>":"<strong>"+$("city").value+"</strong><span>ЕДВ: "+payout()+"</span>";$("messagePreview").textContent=msg()}

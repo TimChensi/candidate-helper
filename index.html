@@ -65,7 +65,7 @@
 </section>
 </section></main>
 <script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyqD9x1tez2GgD_2tkNDDJyX4wZ331tNFbsU22yyS6hAtlAAFztFa2T4gaFAPIHObR1yw/exec";
+const GOOGLE_SCRIPT_URL=atob("aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5cUQ5eDF0ZXoyR2dEXzJ0a05EREp5WDR3WjMzMXRORmJzVTIyeXlTNmhBdGxBQUZ6dEZhMlQ0Z2FGQVBJSE9iUjF5dy9leGVj");
 const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 000 000 ₽"],"Липецк":["3 600 000 ₽","3 100 000 ₽"],"Оренбург":["2 000 000 ₽"],"Воронеж":["2 600 000 ₽"],"Тула":["2 500 000 ₽"],"Казань":["2 900 000 ₽"],"Татарстан":["2 900 000 ₽"]};
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});

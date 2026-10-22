@@ -1,6 +1,6 @@
 const SPREADSHEET_ID = '16xoI3uN2-wgVq2qNNu1y8SKGHaYj1phJES3tJ-zVlpQ';
 const SHEET_NAME = 'Кандидаты';
-const HEADERS = ['Дата добавления','Телефон','Статус контакта','ФИО','Возраст','Город проживания','Город прописки','Гражданство','Категория ВБ','Ограничения по здоровью','Инвалидность','Судимости','ВУ','Пожелания по направлению','Готовность отправления','Готовый текст'];
+const HEADERS = ['Дата добавления','Чей кандидат','Телефон','Статус контакта','ФИО','Возраст','Город проживания','Город прописки','Город оформления','Гражданство','Категория ВБ','Ограничения по здоровью','Инвалидность','Судимости','ВУ','Пожелания по направлению','Готовность отправления','Готовый текст'];
 
 function safeCell(value) {
   const text = String(value ?? '').trim();
@@ -29,7 +29,7 @@ function findExistingCandidateRow_(sheet, phone) {
   if (!target) return null;
   const lastRow = sheet.getLastRow();
   if (lastRow < 2) return null;
-  const phones = sheet.getRange(2,2,lastRow - 1,1).getDisplayValues();
+  const phones = sheet.getRange(2,3,lastRow - 1,1).getDisplayValues();
   for (let i = 0; i < phones.length; i++) {
     if (normalizePhone_(phones[i][0]) === target) return i + 2;
   }
@@ -39,7 +39,7 @@ function findExistingCandidateRow_(sheet, phone) {
 function findWriteRow_(sheet) {
   const lastRow = Math.max(sheet.getLastRow(), 1);
   if (lastRow < 2) return 2;
-  const phones = sheet.getRange(2,2,lastRow - 1,1).getDisplayValues();
+  const phones = sheet.getRange(2,3,lastRow - 1,1).getDisplayValues();
   for (let i = 0; i < phones.length; i++) {
     if (!String(phones[i][0] || '').trim()) return i + 2;
   }
@@ -61,11 +61,10 @@ function doPost(e) {
     const createdAt = existingRow ? (sheet.getRange(existingRow,1).getValue() || new Date()) : new Date();
 
     const row = [
-      createdAt, d.phone, v(d.contactStatus), v(d.fullName), v(d.age),
-      v(d.residenceCity), v(d.registrationCity), v(d.citizenship),
-      v(d.militaryCategory), v(d.healthLimits), v(d.disability),
-      v(d.criminalRecord), v(d.driverLicense), v(d.directionWish),
-      v(d.departureReadiness), v(d.agreementText)
+      createdAt, v(d.candidateOwner), d.phone, v(d.contactStatus), v(d.fullName), v(d.age),
+      v(d.residenceCity), v(d.registrationCity), v(d.processingCity), v(d.citizenship),
+      v(d.militaryCategory), v(d.healthLimits), v(d.disability), v(d.criminalRecord),
+      v(d.driverLicense), v(d.directionWish), v(d.departureReadiness), v(d.agreementText)
     ].map((x,i)=>i===0?x:safeCell(x));
 
     const writeRow = existingRow || findWriteRow_(sheet);

@@ -24,14 +24,17 @@
 <form id="candidateForm">
 <label class="field"><span>Чей кандидат *</span><select id="candidateOwner" required><option value="">Выберите</option><option value="Тимофей">Тимофей</option><option value="Никита">Никита</option></select></label>
 <label class="field"><span>Телефон *</span><input id="phone" type="tel" inputmode="tel" required></label>
-<label class="field"><span>Статус контакта</span><select id="contactStatus">
-<option value="">Не указан</option>
-<option value="НДЗ 1">НДЗ 1</option>
-<option value="НДЗ 2">НДЗ 2</option>
-<option value="Отказ — контракт не интересен">Отказ — контракт не интересен</option>
-<option value="Уже на контракте">Уже на контракте</option>
-<option value="Офицер — предложение не рассматривает">Офицер — предложение не рассматривает</option>
-</select></label>
+<label class="field"><span>Статус контакта</span>
+<input id="contactStatus" list="contactStatusOptions" placeholder="Выберите или напишите свой вариант">
+<datalist id="contactStatusOptions">
+<option value="НДЗ 1"></option>
+<option value="НДЗ 2"></option>
+<option value="Отказ — контракт не интересен"></option>
+<option value="Уже на контракте"></option>
+<option value="Женщина"></option>
+<option value="Офицер"></option>
+</datalist>
+</label>
 <div class="grid"><label class="field"><span>ФИО</span><input id="fullName"></label><label class="field"><span>Возраст</span><input id="age" type="number" min="18" max="99"></label></div>
 <div class="grid"><label class="field"><span>Город проживания</span><input id="residenceCity"></label><label class="field"><span>Город прописки</span><input id="registrationCity"></label></div>
 <label class="field"><span>Гражданство</span><input id="citizenship"></label>

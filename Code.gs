@@ -17,6 +17,25 @@ function getCandidateSheet_() {
   return sheet;
 }
 
+function normalizePhone_(value) {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.length === 10) digits = '7' + digits;
+  if (digits.length === 11 && digits.startsWith('8')) digits = '7' + digits.slice(1);
+  return digits;
+}
+
+function findExistingCandidateRow_(sheet, phone) {
+  const target = normalizePhone_(phone);
+  if (!target) return null;
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return null;
+  const phones = sheet.getRange(2,2,lastRow - 1,1).getDisplayValues();
+  for (let i = 0; i < phones.length; i++) {
+    if (normalizePhone_(phones[i][0]) === target) return i + 2;
+  }
+  return null;
+}
+
 function findWriteRow_(sheet) {
   const lastRow = Math.max(sheet.getLastRow(), 1);
   if (lastRow < 2) return 2;
@@ -37,16 +56,19 @@ function doPost(e) {
 
     const unknown = 'Не дал ответ';
     const v = x => (x == null || String(x).trim() === '') ? unknown : x;
+    const sheet = getCandidateSheet_();
+    const existingRow = findExistingCandidateRow_(sheet, d.phone);
+    const createdAt = existingRow ? (sheet.getRange(existingRow,1).getValue() || new Date()) : new Date();
+
     const row = [
-      new Date(), d.phone, v(d.contactStatus), v(d.fullName), v(d.age),
+      createdAt, d.phone, v(d.contactStatus), v(d.fullName), v(d.age),
       v(d.residenceCity), v(d.registrationCity), v(d.citizenship),
       v(d.militaryCategory), v(d.healthLimits), v(d.disability),
       v(d.criminalRecord), v(d.driverLicense), v(d.directionWish),
       v(d.departureReadiness), v(d.agreementText)
     ].map((x,i)=>i===0?x:safeCell(x));
 
-    const sheet = getCandidateSheet_();
-    const writeRow = findWriteRow_(sheet);
+    const writeRow = existingRow || findWriteRow_(sheet);
     sheet.getRange(writeRow,1,1,row.length).setValues([row]);
 
     return ContentService.createTextOutput(JSON.stringify({ok:true}))

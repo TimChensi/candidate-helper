@@ -11,14 +11,14 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <title>Кандидаты</title>
 <style>
-:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#eef2f7}*{box-sizing:border-box}body{margin:0}.shell{max-width:760px;margin:auto;padding:24px}.card{background:#fff;border-radius:24px;padding:22px;box-shadow:0 12px 40px #0f172a12}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:800;margin:0 0 6px}h1{font-size:30px;margin:0}p.sub{color:#64748b;margin:8px 0 20px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;padding:4px;border-radius:14px;margin-bottom:20px;position:sticky;top:8px;z-index:5}.tab{border:0;border-radius:11px;padding:12px;font-weight:800;background:transparent;color:#64748b}.tab.active{background:#111827;color:#fff}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:block;margin-bottom:14px}.field span,legend{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#334155}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}textarea{resize:vertical}.group{border:0;padding:0;margin:0 0 16px}.chips,.seg{display:flex;flex-wrap:wrap;gap:8px}.chips label,.seg label{position:relative}.chips input,.seg input{position:absolute;opacity:0}.chips label span,.seg label span{display:block;border:1px solid #cbd5e1;border-radius:999px;padding:9px 13px;font-weight:750}.chips input:checked+span,.seg input:checked+span{background:#111827;color:#fff;border-color:#111827}.optional-details{margin-top:12px}.optional-details summary{cursor:pointer;font-weight:750;color:#475569;list-style:none}.optional-details summary::-webkit-details-marker{display:none}.optional-details summary:before{content:"+ ";font-weight:900}.optional-details[open] summary:before{content:"- "}.optional-details .field{margin-top:10px}.tracker-details{border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;margin-bottom:16px;background:#f8fafc}.tracker-details summary{color:#334155}.tracker-grid{margin-top:12px}.color-group{margin-top:4px}.color-choice{display:flex;gap:10px;flex-wrap:wrap}.color-choice label{position:relative;display:flex;align-items:center;gap:8px;border:1px solid #cbd5e1;border-radius:12px;padding:10px 12px;cursor:pointer}.color-choice input{position:absolute;opacity:0;pointer-events:none}.color-choice label:has(input:checked){border-color:#111827;box-shadow:0 0 0 2px #11182712}.color-dot{width:18px;height:18px;border-radius:50%;display:inline-block;border:1px solid #0002}.color-dot.red{background:#ef4444}.color-dot.yellow{background:#facc15}.color-dot.green{background:#22c55e}.color-choice b{font-size:13px}.hidden{display:none!important}.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-top:12px}.preview h2{font-size:16px;margin:0 0 10px}pre{white-space:pre-wrap;font:inherit;line-height:1.55;margin:0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.actions button{padding:13px;border-radius:12px;border:0;font-weight:800}.primary{background:#111827;color:#fff}.secondary{background:#e2e8f0}.ghost{background:#fff;border:1px solid #e2e8f0!important;grid-column:1/-1}.status{text-align:center;font-size:13px;font-weight:700;min-height:20px}.success{color:#166534}.error{color:#b91c1c}.summary{display:flex;justify-content:space-between;background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px}.small{border:0;background:none;font-weight:700;color:#475569;float:right}
-@media(max-width:640px){.shell{padding:0}.card{border-radius:0;min-height:100vh;padding:18px 14px}.grid,.actions{grid-template-columns:1fr}.ghost{grid-column:auto}.tabs{top:0}}
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#eef2f7}*{box-sizing:border-box}body{margin:0}.shell{max-width:760px;margin:auto;padding:24px}.card{background:#fff;border-radius:24px;padding:22px;box-shadow:0 12px 40px #0f172a12}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:800;margin:0 0 6px}h1{font-size:30px;margin:0}p.sub{color:#64748b;margin:8px 0 20px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);background:#f1f5f9;padding:4px;border-radius:14px;margin-bottom:20px;position:sticky;top:8px;z-index:5}.tab{border:0;border-radius:11px;padding:12px;font-weight:800;background:transparent;color:#64748b}.tab.active{background:#111827;color:#fff}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:block;margin-bottom:14px}.field span,legend{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#334155}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}textarea{resize:vertical}.group{border:0;padding:0;margin:0 0 16px}.chips,.seg{display:flex;flex-wrap:wrap;gap:8px}.chips label,.seg label{position:relative}.chips input,.seg input{position:absolute;opacity:0}.chips label span,.seg label span{display:block;border:1px solid #cbd5e1;border-radius:999px;padding:9px 13px;font-weight:750}.chips input:checked+span,.seg input:checked+span{background:#111827;color:#fff;border-color:#111827}.optional-details{margin-top:12px}.optional-details summary{cursor:pointer;font-weight:750;color:#475569;list-style:none}.optional-details summary::-webkit-details-marker{display:none}.optional-details summary:before{content:"+ ";font-weight:900}.optional-details[open] summary:before{content:"- "}.optional-details .field{margin-top:10px}.tracker-details{border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;margin-bottom:16px;background:#f8fafc}.tracker-details summary{color:#334155}.tracker-grid{margin-top:12px}.color-group{margin-top:4px}.color-choice{display:flex;gap:10px;flex-wrap:wrap}.color-choice label{position:relative;display:flex;align-items:center;gap:8px;border:1px solid #cbd5e1;border-radius:12px;padding:10px 12px;cursor:pointer}.color-choice input{position:absolute;opacity:0;pointer-events:none}.color-choice label:has(input:checked){border-color:#111827;box-shadow:0 0 0 2px #11182712}.color-dot{width:18px;height:18px;border-radius:50%;display:inline-block;border:1px solid #0002}.color-dot.red{background:#ef4444}.color-dot.yellow{background:#facc15}.color-dot.green{background:#22c55e}.color-choice b{font-size:13px}.hidden{display:none!important}.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-top:12px}.preview h2{font-size:16px;margin:0 0 10px}pre{white-space:pre-wrap;font:inherit;line-height:1.55;margin:0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.actions button{padding:13px;border-radius:12px;border:0;font-weight:800}.primary{background:#111827;color:#fff}.secondary{background:#e2e8f0}.ghost{background:#fff;border:1px solid #e2e8f0!important;grid-column:1/-1}.status{text-align:center;font-size:13px;font-weight:700;min-height:20px}.success{color:#166534}.error{color:#b91c1c}.summary{display:flex;justify-content:space-between;background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px}.small{border:0;background:none;font-weight:700;color:#475569;float:right}.lookup-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:16px}.lookup-actions{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.lookup-actions button,.wide-btn{border:0;border-radius:12px;padding:12px 16px;font-weight:800}.wide-btn{width:100%;background:#111827;color:#fff}.edit-card{border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-top:14px}.edit-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.edit-head h2{margin:0;font-size:18px}.muted{color:#64748b;font-size:13px}.today-list{display:grid;gap:10px}.today-card{border:1px solid #e2e8f0;border-radius:14px;padding:13px;background:#fff}.today-card.red{background:#fce8e8}.today-card.yellow{background:#fff7d6}.today-card.green{background:#edf7e8}.today-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.today-card h3{font-size:15px;margin:0 0 4px}.today-meta{font-size:12px;color:#64748b}.today-action{font-size:14px;font-weight:700;margin:10px 0 4px}.today-card button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 11px;font-weight:750}.access-note{font-size:12px;color:#64748b;margin:-6px 0 12px}.count-badge{display:inline-block;background:#e2e8f0;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}
+@media(max-width:640px){.shell{padding:0}.card{border-radius:0;min-height:100vh;padding:18px 14px}.grid,.actions,.lookup-actions{grid-template-columns:1fr}.ghost{grid-column:auto}.tabs{top:0;grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <main class="shell"><section class="card">
 <p class="eyebrow">Работа с кандидатами</p><h1>Кандидаты</h1><p class="sub">Согласование и подготовка сообщения.</p>
-<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="message">Сообщение</button></nav>
+<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button></nav>
 
 <section id="agreement" class="panel active">
 <form id="candidateForm">
@@ -77,6 +77,85 @@
 </form>
 </section>
 
+
+<section id="editCandidate" class="panel">
+<div class="lookup-box">
+<div class="grid">
+<label class="field"><span>Код доступа</span><input id="accessKey" type="password" autocomplete="off" placeholder="Введите код доступа"></label>
+<label class="field"><span>Телефон кандидата</span><input id="editPhone" type="tel" inputmode="tel" placeholder="Например: 89990001100"></label>
+</div>
+<p class="access-note">Код сохраняется только в этом браузере.</p>
+<button type="button" class="wide-btn" id="findCandidateBtn">Найти кандидата</button>
+<p id="editSearchStatus" class="status"></p>
+</div>
+
+<div id="editCard" class="edit-card hidden">
+<div class="edit-head">
+<div><h2 id="editCandidateTitle">Кандидат</h2><div id="editCandidateMeta" class="muted"></div></div>
+<span id="editCandidateRow" class="count-badge"></span>
+</div>
+
+<div class="grid">
+<label class="field"><span>Чей кандидат</span><select id="editOwner"><option value="">Не выбран</option><option>Тимофей</option><option>Никита</option></select></label>
+<label class="field"><span>Статус контакта</span><input id="editContactStatus"></label>
+</div>
+<div class="grid">
+<label class="field"><span>ФИО</span><input id="editFullName"></label>
+<label class="field"><span>Возраст</span><input id="editAge"></label>
+</div>
+<div class="grid">
+<label class="field"><span>Город проживания</span><input id="editResidenceCity"></label>
+<label class="field"><span>Город прописки</span><input id="editRegistrationCity"></label>
+</div>
+<div class="grid">
+<label class="field"><span>Город оформления</span><input id="editProcessingCity"></label>
+<label class="field"><span>Гражданство</span><input id="editCitizenship"></label>
+</div>
+<label class="field"><span>Категория ВБ / комментарий</span><input id="editMilitaryCategory"></label>
+<div class="grid">
+<label class="field"><span>Ограничения по здоровью</span><input id="editHealthLimits"></label>
+<label class="field"><span>Инвалидность</span><input id="editDisability"></label>
+</div>
+<label class="field"><span>Судимости</span><input id="editCriminalRecord"></label>
+<label class="field"><span>ВУ</span><input id="editDriverLicense"></label>
+<label class="field"><span>Пожелания по направлению</span><textarea id="editDirectionWish"></textarea></label>
+<label class="field"><span>Готовность отправления</span><input id="editDepartureReadiness"></label>
+
+<div class="grid">
+<label class="field"><span>Метка</span><select id="editCandidateLabel"><option value="">Без метки</option><option>Красный</option><option>Жёлтый</option><option>Зелёный</option></select></label>
+<label class="field"><span>Этап</span><select id="editCandidateStage">
+<option value=""></option>
+<option>Первичный контакт</option>
+<option>На связи / думает</option>
+<option>Ждём документы</option>
+<option>На согласовании</option>
+<option>Согласован</option>
+<option>Выезд / оформление</option>
+<option>Обучение</option>
+<option>Закрыт</option>
+</select></label>
+</div>
+<div class="grid">
+<label class="field"><span>Следующее действие</span><input id="editNextAction"></label>
+<label class="field"><span>Дата действия</span><input id="editNextActionDate" type="date"></label>
+</div>
+
+<button type="button" class="wide-btn" id="saveCandidateChanges">Сохранить изменения</button>
+<p id="editSaveStatus" class="status"></p>
+</div>
+</section>
+
+<section id="todayPanel" class="panel">
+<div class="lookup-box">
+<label class="field"><span>Код доступа</span><input id="todayAccessKey" type="password" autocomplete="off" placeholder="Введите код доступа"></label>
+<p class="access-note">Используется тот же код, что и в разделе «Дополнить».</p>
+<button type="button" class="wide-btn" id="loadTodayBtn">Показать задачи на сегодня</button>
+<p id="todayStatus" class="status"></p>
+</div>
+<div class="summary"><strong>План на день</strong><span id="todayCount" class="count-badge">0</span></div>
+<div id="todayList" class="today-list"></div>
+</section>
+
 <section id="message" class="panel">
 <form id="messageForm">
 <div class="grid"><label class="field"><span>Имя отправителя</span><input id="senderName" value="Артем"></label><label class="field"><span>Имя кандидата</span><input id="candidateName"></label></div>
@@ -94,7 +173,7 @@
 const GOOGLE_SCRIPT_URL=atob("aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5cUQ5eDF0ZXoyR2dEXzJ0a05EREp5WDR3WjMzMXRORmJzVTIyeXlTNmhBdGxBQUZ6dEZhMlQ0Z2FGQVBJSE9iUjF5dy9leGVj");
 const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 000 000 ₽"],"Липецк":["3 600 000 ₽","3 100 000 ₽"],"Оренбург":["2 000 000 ₽"],"Воронеж":["2 600 000 ₽"],"Тула":["2 500 000 ₽"],"Казань":["2 900 000 ₽"],"Татарстан":["2 900 000 ₽"]};
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});
+function activatePanel(id){document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));const btn=document.querySelector('.tab[data-target="'+id+'"]');if(btn)btn.classList.add("active");const panel=$(id);if(panel)panel.classList.add("active")}document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activatePanel(b.dataset.target));
 const form=$("candidateForm");
 function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права - все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
 function data(){const unknown="Не дал ответ";let h=radio("health",form)||unknown,c=radio("criminal",form)||unknown,m=radio("militaryCategory",form),mc=$("militaryComment").value.trim();const val=id=>$(id).value.trim()||unknown;let militaryCategory=mc?(m?m+", "+mc:mc):(m||unknown);return{candidateOwner:$("candidateOwner").value,phone:$("phone").value.trim(),contactStatus:$("contactStatus").value||unknown,fullName:val("fullName"),age:val("age"),citizenship:val("citizenship"),residenceCity:val("residenceCity"),registrationCity:val("registrationCity"),processingCity:$("processingCity").value||unknown,militaryCategory:militaryCategory,healthLimits:h==="Да"?"Да - "+($("healthDetails").value.trim()||unknown):h,disability:radio("disability",form)||unknown,criminalRecord:c==="Да"?"Да - "+($("criminalDetails").value.trim()||unknown):c,driverLicense:licenses()==="Нет / не указано"?unknown:licenses(),directionWish:val("directionWish"),departureReadiness:val("readiness"),candidateLabel:radio("candidateLabel",form),candidateStage:$("candidateStage").value||"Первичный контакт",nextAction:$("nextAction").value.trim(),nextActionDate:$("nextActionDate").value}}
@@ -105,6 +184,35 @@ async function copy(t,status){try{await navigator.clipboard.writeText(t)}catch{l
 $("copyAgreement").onclick=()=>{if(form.reportValidity())copy(agreementText(),$("agreementStatus"))};
 $("saveCandidate").onclick=async()=>{if(!form.reportValidity())return;if(GOOGLE_SCRIPT_URL.includes("PASTE_GOOGLE")){$("agreementStatus").textContent="Google Apps Script ещё не подключён";$("agreementStatus").className="status error";return}const btn=$("saveCandidate");if(btn.disabled)return;btn.disabled=true;const oldText=btn.textContent;btn.textContent="Сохранение…";let p=data();p.agreementText=agreementText(p);$("agreementStatus").textContent="Отправка…";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});$("agreementStatus").textContent="Запрос отправлен в Google Таблицу";$("agreementStatus").className="status success"}catch(e){$("agreementStatus").textContent="Ошибка отправки";$("agreementStatus").className="status error"}finally{setTimeout(()=>{btn.disabled=false;btn.textContent=oldText},1500)}};
 form.onreset=()=>setTimeout(()=>{conditional();$("agreementStatus").textContent=""},0);
+
+const ACCESS_STORAGE_KEY="candidateHelperAccessKey";
+let loadedCandidate=null;
+let jsonpSeq=0;
+const editFieldMap={
+candidateOwner:"editOwner",contactStatus:"editContactStatus",fullName:"editFullName",age:"editAge",
+residenceCity:"editResidenceCity",registrationCity:"editRegistrationCity",processingCity:"editProcessingCity",
+citizenship:"editCitizenship",militaryCategory:"editMilitaryCategory",healthLimits:"editHealthLimits",
+disability:"editDisability",criminalRecord:"editCriminalRecord",driverLicense:"editDriverLicense",
+directionWish:"editDirectionWish",departureReadiness:"editDepartureReadiness",candidateLabel:"editCandidateLabel",
+candidateStage:"editCandidateStage",nextAction:"editNextAction",nextActionDate:"editNextActionDate"
+};
+function savedAccessKey(){return localStorage.getItem(ACCESS_STORAGE_KEY)||""}
+function syncAccessKey(v){v=String(v||"").trim();if(v)localStorage.setItem(ACCESS_STORAGE_KEY,v);else localStorage.removeItem(ACCESS_STORAGE_KEY);if($("accessKey").value!==v)$("accessKey").value=v;if($("todayAccessKey").value!==v)$("todayAccessKey").value=v;return v}
+$("accessKey").value=savedAccessKey();$("todayAccessKey").value=savedAccessKey();
+$("accessKey").addEventListener("change",e=>syncAccessKey(e.target.value));$("todayAccessKey").addEventListener("change",e=>syncAccessKey(e.target.value));
+function jsonpRequest(action,params={}){return new Promise((resolve,reject)=>{const cb="candidateCb"+(++jsonpSeq)+"_"+Date.now();const s=document.createElement("script");const cleanup=()=>{try{delete window[cb]}catch{};s.remove()};const timer=setTimeout(()=>{cleanup();reject(new Error("Сервер не ответил"))},12000);window[cb]=data=>{clearTimeout(timer);cleanup();resolve(data)};s.onerror=()=>{clearTimeout(timer);cleanup();reject(new Error("Ошибка соединения"))};const q=new URLSearchParams({...params,action,callback:cb});s.src=GOOGLE_SCRIPT_URL+"?"+q.toString();document.head.appendChild(s)})}
+function ensureSelectValue(el,value){if(![...el.options].some(o=>o.value===value)&&value){const o=document.createElement("option");o.value=value;o.textContent=value;el.appendChild(o)}el.value=value||""}
+function populateEditCandidate(c){loadedCandidate=c;for(const [key,id] of Object.entries(editFieldMap)){const el=$(id),v=c[key]??"";if(el.tagName==="SELECT")ensureSelectValue(el,String(v));else el.value=String(v)}$("editCandidateTitle").textContent=c.fullName&&c.fullName!=="Не дал ответ"?c.fullName:"Кандидат";$("editCandidateMeta").textContent=(c.phone||"")+" · "+(c.createdAt||"");$("editCandidateRow").textContent="Строка "+c.row;$("editCard").classList.remove("hidden");$("editSaveStatus").textContent=""}
+async function loadCandidateByPhone(phone){const key=syncAccessKey($("accessKey").value||$("todayAccessKey").value||savedAccessKey());if(!key)throw new Error("Введите код доступа");if(!String(phone||"").trim())throw new Error("Введите номер телефона");const r=await jsonpRequest("findCandidate",{key,phone:String(phone).trim()});if(!r.ok)throw new Error(String(r.error||"Кандидат не найден"));populateEditCandidate(r.candidate);return r.candidate}
+$("findCandidateBtn").onclick=async()=>{const st=$("editSearchStatus");st.textContent="Поиск…";st.className="status";try{await loadCandidateByPhone($("editPhone").value);st.textContent="Кандидат найден";st.className="status success"}catch(e){$("editCard").classList.add("hidden");st.textContent=e.message;st.className="status error"}};
+function collectEditChanges(){if(!loadedCandidate)return{};const changes={};for(const [key,id] of Object.entries(editFieldMap)){const val=$(id).value??"";const old=loadedCandidate[key]??"";if(String(val)!==String(old))changes[key]=val}return changes}
+$("saveCandidateChanges").onclick=async()=>{const st=$("editSaveStatus");if(!loadedCandidate){st.textContent="Сначала найдите кандидата";st.className="status error";return}const key=syncAccessKey($("accessKey").value||savedAccessKey());if(!key){st.textContent="Введите код доступа";st.className="status error";return}const changes=collectEditChanges();if(!Object.keys(changes).length){st.textContent="Изменений нет";st.className="status";return}const btn=$("saveCandidateChanges");btn.disabled=true;st.textContent="Сохранение…";st.className="status";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"patchCandidate",accessKey:key,phone:loadedCandidate.phone,changes})});await new Promise(r=>setTimeout(r,900));const verify=await jsonpRequest("findCandidate",{key,phone:loadedCandidate.phone});if(!verify.ok)throw new Error(String(verify.error||"Не удалось проверить сохранение"));populateEditCandidate(verify.candidate);st.textContent="Сохранено. Изменено полей: "+Object.keys(changes).length;st.className="status success"}catch(e){st.textContent=e.message;st.className="status error"}finally{btn.disabled=false}};
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function todayClass(label){return label==="Красный"?"red":label==="Жёлтый"?"yellow":label==="Зелёный"?"green":""}
+function renderToday(tasks){$("todayCount").textContent=tasks.length;$("todayList").innerHTML=tasks.length?tasks.map(t=>'<div class="today-card '+todayClass(t.candidateLabel)+'"><div class="today-top"><div><h3>'+esc(t.fullName&&t.fullName!=="Не дал ответ"?t.fullName:t.phone)+'</h3><div class="today-meta">'+esc(t.phone)+' · '+esc(t.candidateStage||"Без этапа")+'</div></div><button type="button" class="open-task" data-phone="'+esc(t.phone)+'">Открыть</button></div><div class="today-action">'+esc(t.nextAction||"Действие не указано")+'</div><div class="today-meta">Дата: '+esc(t.nextActionDate||"-")+' · '+esc(t.candidateOwner||"")+'</div></div>').join(""):'<div class="preview"><strong>На сегодня задач нет</strong><p class="muted">Кандидаты появятся здесь, когда им назначена дата действия на сегодня или раньше.</p></div>';document.querySelectorAll(".open-task").forEach(b=>b.onclick=async()=>{activatePanel("editCandidate");$("editPhone").value=b.dataset.phone;$("editSearchStatus").textContent="Поиск…";try{await loadCandidateByPhone(b.dataset.phone);$("editSearchStatus").textContent="Кандидат найден";$("editSearchStatus").className="status success"}catch(e){$("editSearchStatus").textContent=e.message;$("editSearchStatus").className="status error"}})}
+async function loadTodayTasks(){const st=$("todayStatus");const key=syncAccessKey($("todayAccessKey").value||$("accessKey").value||savedAccessKey());if(!key){st.textContent="Введите код доступа";st.className="status error";return}st.textContent="Загрузка…";st.className="status";try{const r=await jsonpRequest("today",{key});if(!r.ok)throw new Error(String(r.error||"Ошибка загрузки"));renderToday(r.tasks||[]);st.textContent="Обновлено";st.className="status success"}catch(e){st.textContent=e.message;st.className="status error"}}
+$("loadTodayBtn").onclick=loadTodayTasks;
+
 const mf=$("messageForm");function payout(){let a=CITY_DATA[$("city").value];return $("city").value==="Липецк"&&$("lipetskType").value==="Обычный"?a[1]:a[0]}
 function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"-",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="mog")return[
 "Если подробнее по самому формату работы:",

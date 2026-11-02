@@ -21,13 +21,6 @@
 <nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button></nav>
 
 
-<details class="optional-details tracker-details" id="team2Setup">
-<summary>Подключение к Google Таблице</summary>
-<div class="tracker-grid"><label class="field"><span>Адрес нового Apps Script (Web app /exec)</span><input type="url" id="team2Endpoint" placeholder="https://script.google.com/macros/s/.../exec"></label>
-<button type="button" class="wide-btn" id="saveTeam2Endpoint">Сохранить подключение</button>
-<p class="access-note">Используется только Apps Script второй команды. Первый сайт и его таблица не связаны с этой страницей.</p>
-<p id="team2SetupStatus" class="status"></p></div>
-</details>
 <section id="agreement" class="panel active">
 <form id="candidateForm">
 <input type="hidden" id="candidateOwner" value="Тимофей">
@@ -180,14 +173,11 @@
 </section>
 </section></main>
 <script>
-const GOOGLE_SCRIPT_URL=localStorage.getItem("candidateHelper2Endpoint")||"PASTE_TEAM2_GOOGLE_SCRIPT_URL";
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxNjIzE7O44j_238PaVJIXjxyUgs-P6Qit6pN8hDIlMUa4hPzRXIO86EbHtyceMpXX4/exec";
 function apiIsReady(){return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(GOOGLE_SCRIPT_URL)}
 const CITY_DATA={"Волгоград":[["3 400 000 ₽",""]],"Балашиха":[["3 000 000 ₽",""]],"Владимир":[["3 200 000 ₽",""]],"Уфа":[["2 000 000 ₽","Здоров"],["1 550 000 ₽","Комиссован, категория В"],["1 600 000 ₽","Из списка запретных статей"],["1 500 000 ₽","Иностранцы не из СНГ"],["1 400 000 ₽","Иностранцы из запрещённых стран"],["1 400 000 ₽","Офицеры"]],"Ленинградская область (общий)":[["3 900 000 ₽","Общий порядок","Земельный участок от 1 500 000 ₽"],["2 550 000 ₽","По отношению","Земельный участок от 1 500 000 ₽"]],"Ленинградская область (БПЛА)":[["3 900 000 ₽","","Земельный участок от 1 500 000 ₽"]],"Тамбов (БПЛА)":[["2 800 000 ₽",""]],"Тамбов (общий)":[["2 400 000 ₽","","Резервный полк Погоново (Воронежская область)"]]};
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
 function activatePanel(id){document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));const btn=document.querySelector('.tab[data-target="'+id+'"]');if(btn)btn.classList.add("active");const panel=$(id);if(panel)panel.classList.add("active")}document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activatePanel(b.dataset.target));
-const savedTeam2Endpoint=$("team2Endpoint");
-savedTeam2Endpoint.value=apiIsReady()?GOOGLE_SCRIPT_URL:"";
-$("saveTeam2Endpoint").onclick=()=>{const v=savedTeam2Endpoint.value.trim();const st=$("team2SetupStatus");if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(v)){st.textContent="Нужна ссылка на развернутый Apps Script, оканчивающаяся /exec";st.className="status error";return}localStorage.setItem("candidateHelper2Endpoint",v);window.location.reload()};
 const form=$("candidateForm");
 function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права - все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
 function data(){const unknown="Не дал ответ";let h=radio("health",form)||unknown,c=radio("criminal",form)||unknown,m=radio("militaryCategory",form),mc=$("militaryComment").value.trim();const val=id=>$(id).value.trim()||unknown;let militaryCategory=mc?(m?m+", "+mc:mc):(m||unknown);return{candidateOwner:$("candidateOwner").value,phone:$("phone").value.trim(),contactStatus:$("contactStatus").value||unknown,fullName:val("fullName"),age:val("age"),citizenship:val("citizenship"),residenceCity:val("residenceCity"),registrationCity:val("registrationCity"),processingCity:$("processingCity").value||unknown,militaryCategory:militaryCategory,healthLimits:h==="Да"?"Да - "+($("healthDetails").value.trim()||unknown):h,disability:radio("disability",form)||unknown,criminalRecord:c==="Да"?"Да - "+($("criminalDetails").value.trim()||unknown):c,driverLicense:licenses()==="Нет / не указано"?unknown:licenses(),directionWish:val("directionWish"),departureReadiness:val("readiness"),candidateLabel:radio("candidateLabel",form),candidateStage:$("candidateStage").value||"Первичный контакт",nextAction:$("nextAction").value.trim(),nextActionDate:$("nextActionDate").value}}

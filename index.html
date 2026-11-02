@@ -177,9 +177,42 @@ const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 0
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
 function activatePanel(id){document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));const btn=document.querySelector('.tab[data-target="'+id+'"]');if(btn)btn.classList.add("active");const panel=$(id);if(panel)panel.classList.add("active")}document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activatePanel(b.dataset.target));
 const form=$("candidateForm");
-function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права - все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")||"Нет / не указано"}
-function data(){const unknown="Не дал ответ";let h=radio("health",form)||unknown,c=radio("criminal",form)||unknown,m=radio("militaryCategory",form),mc=$("militaryComment").value.trim();const val=id=>$(id).value.trim()||unknown;let militaryCategory=mc?(m?m+", "+mc:mc):(m||unknown);return{candidateOwner:$("candidateOwner").value,phone:$("phone").value.trim(),contactStatus:$("contactStatus").value||unknown,fullName:val("fullName"),age:val("age"),citizenship:val("citizenship"),residenceCity:val("residenceCity"),registrationCity:val("registrationCity"),processingCity:$("processingCity").value||unknown,militaryCategory:militaryCategory,healthLimits:h==="Да"?"Да - "+($("healthDetails").value.trim()||unknown):h,disability:radio("disability",form)||unknown,criminalRecord:c==="Да"?"Да - "+($("criminalDetails").value.trim()||unknown):c,driverLicense:licenses()==="Нет / не указано"?unknown:licenses(),directionWish:val("directionWish"),departureReadiness:val("readiness"),candidateLabel:radio("candidateLabel",form),candidateStage:$("candidateStage").value||"Первичный контакт",nextAction:$("nextAction").value.trim(),nextActionDate:$("nextActionDate").value}}
-function agreementText(d=data()){return["Согласование кандидата","1. Чей кандидат: "+(d.candidateOwner||"-"),"2. Телефон: "+(d.phone||"-"),"3. Статус контакта: "+(d.contactStatus||"-"),"4. ФИО: "+(d.fullName||"-"),"5. Возраст: "+(d.age||"-"),"6. Город проживания: "+(d.residenceCity||"-"),"7. Город прописки: "+(d.registrationCity||"-"),"8. Гражданство: "+(d.citizenship||"-"),"9. Категория военного билета: "+(d.militaryCategory||"-"),"10. Ограничения по здоровью: "+d.healthLimits,"11. Инвалидность: "+d.disability,"12. Судимости: "+d.criminalRecord,"13. ВУ: "+d.driverLicense,"14. Пожелания по направлению: "+d.directionWish,"15. Готовность отправления: "+(d.departureReadiness||"-"),"16. Город оформления: "+(d.processingCity||"-")].join("\n")}
+function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права - все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")}
+function data(){
+ const clean=x=>{const s=String(x??"").trim();return s==="Не дал ответ"?"":s};
+ const h=clean(radio("health",form)),c=clean(radio("criminal",form));
+ const m=radio("militaryCategory",form),mc=$("militaryComment").value.trim();
+ const val=id=>clean($(id).value);
+ const militaryCategory=mc?(m?m+", "+mc:mc):m;
+ return{
+ candidateOwner:$("candidateOwner").value,phone:$("phone").value.trim(),
+ contactStatus:val("contactStatus"),fullName:val("fullName"),age:val("age"),
+ citizenship:val("citizenship"),residenceCity:val("residenceCity"),registrationCity:val("registrationCity"),
+ processingCity:val("processingCity"),militaryCategory:clean(militaryCategory),
+ healthLimits:h==="Да"?("Да"+($("healthDetails").value.trim()?" - "+$("healthDetails").value.trim():"")):h,
+ disability:clean(radio("disability",form)),
+ criminalRecord:c==="Да"?("Да"+($("criminalDetails").value.trim()?" - "+$("criminalDetails").value.trim():"")):c,
+ driverLicense:clean(licenses()),directionWish:val("directionWish"),
+ departureReadiness:val("readiness"),candidateLabel:radio("candidateLabel",form),
+ candidateStage:$("candidateStage").value||"Первичный контакт",
+ nextAction:$("nextAction").value.trim(),nextActionDate:$("nextActionDate").value
+ };
+}
+function agreementText(d=data()){
+ const show=x=>{const t=String(x??"").trim();return t&&t!=="Не дал ответ"?t:"Не дал ответ"};
+ return [
+ "Согласование кандидата","1. Чей кандидат: "+show(d.candidateOwner),
+ "2. Телефон: "+show(d.phone),"3. Статус контакта: "+show(d.contactStatus),
+ "4. ФИО: "+show(d.fullName),"5. Возраст: "+show(d.age),
+ "6. Город проживания: "+show(d.residenceCity),"7. Город прописки: "+show(d.registrationCity),
+ "8. Гражданство: "+show(d.citizenship),"9. Категория военного билета: "+show(d.militaryCategory),
+ "10. Ограничения по здоровью: "+show(d.healthLimits),
+ "11. Инвалидность: "+show(d.disability),"12. Судимости: "+show(d.criminalRecord),
+ "13. ВУ: "+show(d.driverLicense),"14. Пожелания по направлению: "+show(d.directionWish),
+ "15. Готовность отправления: "+show(d.departureReadiness),
+ "16. Город оформления: "+show(d.processingCity)
+ ].join("\n");
+}
 function conditional(){$("healthWrap").classList.toggle("hidden",radio("health",form)!=="Да");$("criminalWrap").classList.toggle("hidden",radio("criminal",form)!=="Да");$("agreementPreview").textContent=agreementText()}
 form.addEventListener("input",conditional);form.addEventListener("change",conditional);$("refresh").onclick=conditional;
 async function copy(t,status){try{await navigator.clipboard.writeText(t)}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove()}status.textContent="Скопировано";status.className="status success"}

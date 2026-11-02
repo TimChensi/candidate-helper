@@ -230,7 +230,7 @@ $("loadTodayBtn").onclick=loadTodayTasks;
 const mf=$("messageForm");
 function chosenOffer(){const arr=CITY_DATA[$("city").value]||[];return arr[Number($("team2Variant").value)||0]||arr[0]||["Не указана",""]}
 function payout(){return chosenOffer()[0]}
-function payoutDetails(){const o=chosenOffer();return [o[1]?"Категория: "+o[1]:"",o[2]?"Дополнительно: "+o[2]:""].filter(Boolean)}
+function payoutDetails(){const o=chosenOffer();return o[2]?["Дополнительно: "+o[2]]:[]}
 function updateVariantChoices(){const city=$("city").value,arr=CITY_DATA[city]||[],select=$("team2Variant"),previous=select.dataset.city===city?select.value:"0";select.replaceChildren(...arr.map((o,i)=>{const option=document.createElement("option");option.value=String(i);option.textContent=o[1]?o[1]+" — "+o[0]:o[0];return option}));select.value=Number(previous)<arr.length?previous:"0";select.dataset.city=city;$("team2VariantWrap").classList.toggle("hidden",arr.length<2)}
 function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"-",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="mog")return[
 "Если подробнее по самому формату работы:",

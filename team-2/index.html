@@ -97,6 +97,7 @@
 <span id="editCandidateRow" class="count-badge"></span>
 </div>
 
+<div id="editFormSlot"></div><div id="legacyEditFields" class="hidden">
 <div class="grid">
 <input type="hidden" id="editOwner" value="Тимофей">
 <label class="field"><span>Статус контакта</span><input id="editContactStatus"></label>
@@ -142,7 +143,7 @@
 <label class="field"><span>Дата действия</span><input id="editNextActionDate" type="date"></label>
 </div>
 
-<button type="button" class="wide-btn" id="saveCandidateChanges">Сохранить изменения</button>
+</div><button type="button" class="wide-btn hidden" id="saveCandidateChanges">Сохранить изменения</button>
 <p id="editSaveStatus" class="status"></p>
 </div>
 </section>
@@ -177,8 +178,31 @@ const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxNjIzE7O44j_23
 function apiIsReady(){return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(GOOGLE_SCRIPT_URL)}
 const CITY_DATA={"Волгоград":[["3 400 000 ₽",""]],"Балашиха":[["3 000 000 ₽",""]],"Владимир":[["3 200 000 ₽",""]],"Уфа":[["2 000 000 ₽","Здоров"],["1 550 000 ₽","Комиссован, категория В"],["1 600 000 ₽","Из списка запретных статей"],["1 500 000 ₽","Иностранцы не из СНГ"],["1 400 000 ₽","Иностранцы из запрещённых стран"],["1 400 000 ₽","Офицеры"]],"Ленинградская область (общий)":[["3 900 000 ₽","Общий порядок","Земельный участок от 1 500 000 ₽"],["2 550 000 ₽","По отношению","Земельный участок от 1 500 000 ₽"]],"Ленинградская область (БПЛА)":[["3 900 000 ₽","","Земельный участок от 1 500 000 ₽"]],"Тамбов (БПЛА)":[["2 800 000 ₽",""]],"Тамбов (общий)":[["2 400 000 ₽","","Резервный полк Погоново (Воронежская область)"]]};
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
-function activatePanel(id){document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));const btn=document.querySelector('.tab[data-target="'+id+'"]');if(btn)btn.classList.add("active");const panel=$(id);if(panel)panel.classList.add("active")}document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activatePanel(b.dataset.target));
+function activatePanel(id){if(id==="agreement")mountSharedForm("create");document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));const btn=document.querySelector('.tab[data-target="'+id+'"]');if(btn)btn.classList.add("active");const panel=$(id);if(panel)panel.classList.add("active")}document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activatePanel(b.dataset.target));
 const form=$("candidateForm");
+let currentFormMode="create",sharedEditSnapshot=null;
+function mountSharedForm(mode){
+ if(mode==="create"){
+  if(currentFormMode==="edit"){
+    form.reset();loadedCandidate=null;sharedEditSnapshot=null;
+    $("editCard").classList.add("hidden");
+  }
+  $("agreement").appendChild(form);
+  $("phone").readOnly=false;
+  $("saveCandidate").textContent="Сохранить в Google Таблицу";
+  form.querySelector('button[type="reset"]').classList.remove("hidden");
+  currentFormMode="create";
+ }else{
+  $("editFormSlot").appendChild(form);
+  $("phone").readOnly=true;
+  $("saveCandidate").textContent="Сохранить изменения";
+  form.querySelector('button[type="reset"]').classList.add("hidden");
+  currentFormMode="edit";
+ }
+ conditional();
+}
+
+
 function licenses(){let a=[...form.querySelectorAll('input[name="license"]:checked')].map(x=>x.value);if($("tractor").checked)a.push("тракторные права - все типы");if($("licenseNotes").value.trim())a.push($("licenseNotes").value.trim());return a.join("; ")}
 function data(){
  const clean=x=>{const s=String(x??"").trim();return s==="Не дал ответ"?"":s};
@@ -219,7 +243,25 @@ function conditional(){$("healthWrap").classList.toggle("hidden",radio("health",
 form.addEventListener("input",conditional);form.addEventListener("change",conditional);$("refresh").onclick=conditional;
 async function copy(t,status){try{await navigator.clipboard.writeText(t)}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove()}status.textContent="Скопировано";status.className="status success"}
 $("copyAgreement").onclick=()=>{if(form.reportValidity())copy(agreementText(),$("agreementStatus"))};
-$("saveCandidate").onclick=async()=>{if(!form.reportValidity())return;if(!apiIsReady()){$("agreementStatus").textContent="Google Apps Script ещё не подключён";$("agreementStatus").className="status error";return}const btn=$("saveCandidate");if(btn.disabled)return;btn.disabled=true;const oldText=btn.textContent;btn.textContent="Сохранение…";let p=data();p.agreementText=agreementText(p);$("agreementStatus").textContent="Отправка…";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});$("agreementStatus").textContent="Запрос отправлен в Google Таблицу";$("agreementStatus").className="status success"}catch(e){$("agreementStatus").textContent="Ошибка отправки";$("agreementStatus").className="status error"}finally{setTimeout(()=>{btn.disabled=false;btn.textContent=oldText},1500)}};
+$("saveCandidate").onclick=async()=>{
+ if(currentFormMode==="edit"){
+   if(!loadedCandidate||!sharedEditSnapshot){$("editSaveStatus").textContent="Сначала найдите кандидата";return}
+   if(!form.reportValidity())return;
+   const current=data();
+   for(const [field,val] of Object.entries(current)){
+     if(field==="phone"||String(val??"")===String(sharedEditSnapshot[field]??""))continue;
+     const id=editFieldMap[field];
+     if(!id)continue;
+     const el=$(id);if(el.tagName==="SELECT")ensureSelectValue(el,String(val??""));else el.value=String(val??"");
+   }
+   const btn=$("saveCandidate");btn.disabled=true;btn.textContent="Сохранение…";
+   try{await $("saveCandidateChanges").onclick();
+     $("agreementStatus").textContent=$("editSaveStatus").textContent;
+     $("agreementStatus").className=$("editSaveStatus").className;
+   }finally{btn.disabled=false;btn.textContent="Сохранить изменения"}
+   return;
+ }
+if(!form.reportValidity())return;if(!apiIsReady()){$("agreementStatus").textContent="Google Apps Script ещё не подключён";$("agreementStatus").className="status error";return}const btn=$("saveCandidate");if(btn.disabled)return;btn.disabled=true;const oldText=btn.textContent;btn.textContent="Сохранение…";let p=data();p.agreementText=agreementText(p);$("agreementStatus").textContent="Отправка…";try{await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});$("agreementStatus").textContent="Запрос отправлен в Google Таблицу";$("agreementStatus").className="status success"}catch(e){$("agreementStatus").textContent="Ошибка отправки";$("agreementStatus").className="status error"}finally{setTimeout(()=>{btn.disabled=false;btn.textContent=oldText},1500)}};
 form.onreset=()=>setTimeout(()=>{conditional();$("agreementStatus").textContent=""},0);
 
 const ACCESS_STORAGE_KEY="candidateHelper2AccessKey";
@@ -249,7 +291,62 @@ $("editChangeAccess").onclick=()=>resetAccessCode("edit");
 $("todayChangeAccess").onclick=()=>resetAccessCode("today");
 if(savedAccessKey()&&!accessVerified())verifyAccessInput(savedAccessKey(),"edit",true);
 function ensureSelectValue(el,value){if(![...el.options].some(o=>o.value===value)&&value){const o=document.createElement("option");o.value=value;o.textContent=value;el.appendChild(o)}el.value=value||""}
-function populateEditCandidate(c){loadedCandidate=c;for(const [key,id] of Object.entries(editFieldMap)){const el=$(id),v=c[key]??"";if(el.tagName==="SELECT")ensureSelectValue(el,String(v));else el.value=String(v)}$("editCandidateTitle").textContent=c.fullName&&c.fullName!=="Не дал ответ"?c.fullName:"Кандидат";$("editCandidateMeta").textContent=(c.phone||"")+" · "+(c.createdAt||"");$("editCandidateRow").textContent="Строка "+c.row;$("editCard").classList.remove("hidden");$("editSaveStatus").textContent=""}
+function populateEditCandidate(c){loadedCandidate=c;for(const [key,id] of Object.entries(editFieldMap)){const el=$(id),v=c[key]??"";if(el.tagName==="SELECT")ensureSelectValue(el,String(v));else el.value=String(v)}$("editCandidateTitle").textContent=c.fullName&&c.fullName!=="Не дал ответ"?c.fullName:"Кандидат";$("editCandidateMeta").textContent=(c.phone||"")+" · "+(c.createdAt||"");$("editCandidateRow").textContent="Строка "+c.row;$("editCard").classList.remove("hidden");$("editSaveStatus").textContent="";showCandidateSharedForm(c)}
+function selectFormRadio(name,value){
+ const options=[...form.querySelectorAll('input[name="'+name+'"]')];
+ let selected=options.find(x=>x.value===value);
+ if(!selected)selected=options.find(x=>x.value==="Не дал ответ");
+ options.forEach(x=>x.checked=x===selected);
+}
+function showCandidateSharedForm(c){
+ const clean=x=>{const s=String(x??"");return s==="Не дал ответ"?"":s};
+ form.reset();
+ const mapping={
+   candidateOwner:"candidateOwner",phone:"phone",contactStatus:"contactStatus",
+   fullName:"fullName",age:"age",residenceCity:"residenceCity",
+   registrationCity:"registrationCity",citizenship:"citizenship",
+   processingCity:"processingCity",directionWish:"directionWish",
+   departureReadiness:"readiness",candidateStage:"candidateStage",
+   nextAction:"nextAction",nextActionDate:"nextActionDate"
+ };
+ for(const [key,id] of Object.entries(mapping)){
+   const el=$(id),value=clean(c[key]);
+   if(el.tagName==="SELECT"&&value)ensureSelectValue(el,value);
+   else if(el.tagName==="SELECT"&&id!=="candidateStage")el.value="";
+   else if(el.tagName==="SELECT")el.value="Первичный контакт";
+   else el.value=value;
+ }
+ const military=clean(c.militaryCategory);
+ const mm=military.match(/^(А|Б|В|Г|Д|Не помнит)(?:,\s*(.*))?$/);
+ selectFormRadio("militaryCategory",mm?mm[1]:"");
+ $("militaryComment").value=mm?(mm[2]||""):military;
+ for(const [name,key,detailId] of [["health","healthLimits","healthDetails"],["criminal","criminalRecord","criminalDetails"]]){
+   const v=clean(c[key]);
+   const match=v.match(/^Да(?:\s*[-–—]\s*(.*))?$/);
+   selectFormRadio(name,match?"Да":v==="Нет"?"Нет":"");
+   $(detailId).value=match&&match[1]&&match[1]!=="Не дал ответ"?match[1]:"";
+ }
+ selectFormRadio("disability",clean(c.disability));
+ selectFormRadio("candidateLabel",clean(c.candidateLabel));
+ form.querySelectorAll('input[name="license"]').forEach(x=>x.checked=false);
+ $("tractor").checked=false;$("licenseNotes").value="";
+ const license=clean(c.driverLicense);
+ if(license&&license!=="Нет / не указано"){
+   const extra=[];
+   for(const part of license.split(/;\s*/)){
+     const v=part.trim();if(!v)continue;
+     const cb=[...form.querySelectorAll('input[name="license"]')].find(x=>x.value===v);
+     if(cb)cb.checked=true;
+     else if(v==="тракторные права - все типы")$("tractor").checked=true;
+     else extra.push(v);
+   }
+   $("licenseNotes").value=extra.join("; ");
+ }
+ mountSharedForm("edit");
+ sharedEditSnapshot=data();
+ conditional();
+ $("agreementStatus").textContent="";
+}
 async function loadCandidateByPhone(phone){const key=syncAccessKey($("accessKey").value||$("todayAccessKey").value||savedAccessKey());if(!key)throw new Error("Введите код доступа");if(!String(phone||"").trim())throw new Error("Введите номер телефона");const r=await jsonpRequest("findCandidate",{key,phone:String(phone).trim()});if(!r.ok){if(String(r.error||"").includes("Неверный код доступа"))resetAccessCode("edit");throw new Error(String(r.error||"Кандидат не найден"))}markAccessVerified();populateEditCandidate(r.candidate);return r.candidate}
 $("findCandidateBtn").onclick=async()=>{const st=$("editSearchStatus");st.textContent="Поиск…";st.className="status";try{await loadCandidateByPhone($("editPhone").value);st.textContent="Кандидат найден";st.className="status success"}catch(e){$("editCard").classList.add("hidden");st.textContent=e.message;st.className="status error"}};
 function collectEditChanges(){if(!loadedCandidate)return{};const changes={};for(const [key,id] of Object.entries(editFieldMap)){const val=$(id).value??"";const old=loadedCandidate[key]??"";if(String(val)!==String(old))changes[key]=val}return changes}

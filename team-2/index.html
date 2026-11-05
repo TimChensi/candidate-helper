@@ -356,7 +356,7 @@ function showCandidateSharedForm(c){
  $("militaryComment").value=mm?(mm[2]||""):military;
  for(const [name,key,detailId] of [["health","healthLimits","healthDetails"],["criminal","criminalRecord","criminalDetails"]]){
    const v=clean(c[key]);
-   const match=v.match(/^Да(?:\s*[-–—]\s*(.*))?$/);
+   const match=v.match(/^Да(?:\s*[-\u2013\u2014]\s*(.*))?$/);
    selectFormRadio(name,match?"Да":v==="Нет"?"Нет":"");
    $(detailId).value=match&&match[1]&&match[1]!=="Не дал ответ"?match[1]:"";
  }
@@ -395,7 +395,7 @@ const mf=$("messageForm");
 function chosenOffer(){const arr=CITY_DATA[$("city").value]||[];return arr[Number($("team2Variant").value)||0]||arr[0]||["Не указана",""]}
 function payout(){return chosenOffer()[0]}
 function payoutDetails(){const o=chosenOffer();return o[2]?["Дополнительно: "+o[2]]:[]}
-function updateVariantChoices(){const city=$("city").value,arr=CITY_DATA[city]||[],select=$("team2Variant"),previous=select.dataset.city===city?select.value:"0";select.replaceChildren(...arr.map((o,i)=>{const option=document.createElement("option");option.value=String(i);option.textContent=o[1]?o[1]+" — "+o[0]:o[0];return option}));select.value=Number(previous)<arr.length?previous:"0";select.dataset.city=city;$("team2VariantWrap").classList.toggle("hidden",arr.length<2)}
+function updateVariantChoices(){const city=$("city").value,arr=CITY_DATA[city]||[],select=$("team2Variant"),previous=select.dataset.city===city?select.value:"0";select.replaceChildren(...arr.map((o,i)=>{const option=document.createElement("option");option.value=String(i);option.textContent=o[1]?o[1]+" - "+o[0]:o[0];return option}));select.value=Number(previous)<arr.length?previous:"0";select.dataset.city=city;$("team2VariantWrap").classList.toggle("hidden",arr.length<2)}
 function msg(){let name=$("candidateName").value.trim(),sender=$("senderName").value.trim()||"Артем",pos=$("position").value.trim()||"-",city=$("city").value,pay=payout(),g=name?"Добрый день, "+name+".":"Добрый день.",mode=radio("mode",mf);if(mode==="mog")return[
 "Если подробнее по самому формату работы:",
 "",
@@ -474,7 +474,7 @@ $("processingCity").addEventListener("change",()=>{if($("processingCity").value)
 /* Независимая от Google Таблиц библиотека сообщений. Новые сценарии добавляются сюда. */
 const FOLLOWUP_TEMPLATES={
  read:"Добрый день! Подскажите, удалось ознакомиться с информацией, которую я вам отправил?\n\nХочу понять, насколько для вас сейчас актуально наше предложение, чтобы не беспокоить лишними сообщениями.\n\n1. Всё интересно, готов двигаться дальше.\n2. Есть вопросы, хотелось бы уточнить некоторые моменты.\n3. Пока сомневаюсь, нужно время подумать.\n4. Предложение больше неактуально.\n\nМожете просто отправить цифру. В зависимости от ответа подскажу, что делать дальше.",
- interested:"Отлично, тогда двигаемся дальше.\n\nДля согласования вашей кандидатуры понадобятся документы. Дублирую список:\n\n1. Паспорт — первые две страницы.\n2. Военный билет — первая страница и страница с категорией годности.\n3. СНИЛС.\n4. ИНН.\n5. Водительское удостоверение (если есть).\n\nНапишите, какие документы уже есть на руках, и подскажу, как их передать для согласования.",
+ interested:"Отлично, тогда двигаемся дальше.\n\nДля согласования вашей кандидатуры понадобятся документы. Дублирую список:\n\n1. Паспорт - первые две страницы.\n2. Военный билет - первая страница и страница с категорией годности.\n3. СНИЛС.\n4. ИНН.\n5. Водительское удостоверение (если есть).\n\nНапишите, какие документы уже есть на руках, и подскажу, как их передать для согласования.",
  questions:"Хорошо, давайте разберёмся.\n\nНапишите, что именно хотите уточнить или какие моменты вызывают вопросы.\n\nМожете написать текстом, записать голосовое или можем созвониться. Как вам удобнее.",
  thinking:"Понял вас, тогда пока не тороплю.\n\nДавайте вернёмся к этому вопросу через неделю. Заодно будет время всё обдумать.\n\nЕсли за это время появятся вопросы, пишите.",
  thinkingWeek:"Добрый день! Возвращаюсь к нашему разговору, как и договаривались.\n\nНу что, получилось определиться с предложением или пока остались сомнения?\n\nЕсли появились вопросы, можем их обсудить.",

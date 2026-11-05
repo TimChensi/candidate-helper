@@ -13,12 +13,22 @@
 <style>
 :root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#eef2f7}*{box-sizing:border-box}body{margin:0}.shell{max-width:760px;margin:auto;padding:24px}.card{background:#fff;border-radius:24px;padding:22px;box-shadow:0 12px 40px #0f172a12}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:800;margin:0 0 6px}h1{font-size:30px;margin:0}p.sub{color:#64748b;margin:8px 0 20px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);background:#f1f5f9;padding:4px;border-radius:14px;margin-bottom:20px;position:sticky;top:8px;z-index:5}.tab{border:0;border-radius:11px;padding:12px;font-weight:800;background:transparent;color:#64748b}.tab.active{background:#111827;color:#fff}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:block;margin-bottom:14px}.field span,legend{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#334155}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}textarea{resize:vertical}.group{border:0;padding:0;margin:0 0 16px}.chips,.seg{display:flex;flex-wrap:wrap;gap:8px}.chips label,.seg label{position:relative}.chips input,.seg input{position:absolute;opacity:0}.chips label span,.seg label span{display:block;border:1px solid #cbd5e1;border-radius:999px;padding:9px 13px;font-weight:750}.chips input:checked+span,.seg input:checked+span{background:#111827;color:#fff;border-color:#111827}.optional-details{margin-top:12px}.optional-details summary{cursor:pointer;font-weight:750;color:#475569;list-style:none}.optional-details summary::-webkit-details-marker{display:none}.optional-details summary:before{content:"+ ";font-weight:900}.optional-details[open] summary:before{content:"- "}.optional-details .field{margin-top:10px}.tracker-details{border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;margin-bottom:16px;background:#f8fafc}.tracker-details summary{color:#334155}.tracker-grid{margin-top:12px}.color-group{margin-top:4px}.color-choice{display:flex;gap:10px;flex-wrap:wrap}.color-choice label{position:relative;display:flex;align-items:center;gap:8px;border:1px solid #cbd5e1;border-radius:12px;padding:10px 12px;cursor:pointer}.color-choice input{position:absolute;opacity:0;pointer-events:none}.color-choice label:has(input:checked){border-color:#111827;box-shadow:0 0 0 2px #11182712}.color-dot{width:18px;height:18px;border-radius:50%;display:inline-block;border:1px solid #0002}.color-dot.red{background:#ef4444}.color-dot.yellow{background:#facc15}.color-dot.green{background:#22c55e}.color-choice b{font-size:13px}.hidden{display:none!important}.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-top:12px}.preview h2{font-size:16px;margin:0 0 10px}pre{white-space:pre-wrap;font:inherit;line-height:1.55;margin:0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.actions button{padding:13px;border-radius:12px;border:0;font-weight:800}.primary{background:#111827;color:#fff}.secondary{background:#e2e8f0}.ghost{background:#fff;border:1px solid #e2e8f0!important;grid-column:1/-1}.status{text-align:center;font-size:13px;font-weight:700;min-height:20px}.success{color:#166534}.error{color:#b91c1c}.summary{display:flex;justify-content:space-between;background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px}.small{border:0;background:none;font-weight:700;color:#475569;float:right}.lookup-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:16px}.lookup-actions{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.lookup-actions button,.wide-btn{border:0;border-radius:12px;padding:12px 16px;font-weight:800}.wide-btn{width:100%;background:#111827;color:#fff}.edit-card{border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-top:14px}.edit-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.edit-head h2{margin:0;font-size:18px}.muted{color:#64748b;font-size:13px}.today-list{display:grid;gap:10px}.today-card{border:1px solid #e2e8f0;border-radius:14px;padding:13px;background:#fff}.today-card.red{background:#fce8e8}.today-card.yellow{background:#fff7d6}.today-card.green{background:#edf7e8}.today-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.today-card h3{font-size:15px;margin:0 0 4px}.today-meta{font-size:12px;color:#64748b}.today-action{font-size:14px;font-weight:700;margin:10px 0 4px}.today-card button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 11px;font-weight:750}.access-note{font-size:12px;color:#64748b;margin:-6px 0 12px}.auth-settings{display:flex;justify-content:flex-end}.access-change{border:0;background:none;color:#64748b;text-decoration:underline;font-size:12px;padding:0 0 8px;cursor:pointer}.grid.access-granted{grid-template-columns:1fr}.count-badge{display:inline-block;background:#e2e8f0;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}
 @media(max-width:640px){.shell{padding:0}.card{border-radius:0;min-height:100vh;padding:18px 14px}.grid,.actions,.lookup-actions{grid-template-columns:1fr}.ghost{grid-column:auto}.tabs{top:0;grid-template-columns:1fr 1fr}}
+
+/* Библиотека сообщений: отдельная вкладка, не затрагивающая формы кандидатов */
+.tabs{grid-template-columns:repeat(5,minmax(0,1fr))}
+.template-heading{font-size:18px;margin:0 0 9px}
+.template-description{color:#64748b;font-size:13px;line-height:1.5;margin:0 0 17px}
+.template-delay-note{font-size:12px;color:#64748b;margin:-5px 0 12px;line-height:1.45}
+.template-preview{min-height:160px}
+.template-copy{width:100%;border:0;border-radius:12px;background:#111827;color:#fff;padding:14px 16px;font:inherit;font-weight:800;cursor:pointer;margin-top:13px}
+@media(max-width:640px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.tab{padding:11px 6px;font-size:12px}}
+
 </style>
 </head>
 <body>
 <main class="shell"><section class="card">
 <p class="eyebrow">Вторая команда / Тимофей</p><h1>Кандидаты 2</h1><p class="sub">Отдельный учёт кандидатов и подготовка сообщений.</p>
-<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button></nav>
+<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button><button class="tab" data-target="templates">Шаблоны</button></nav>
 
 
 <section id="agreement" class="panel active">
@@ -171,6 +181,30 @@
 <div class="actions"><button type="button" class="primary" id="copyMessage">Скопировать сообщение</button><button type="reset" class="ghost">Очистить</button></div>
 <p id="messageStatus" class="status"></p>
 </form>
+</section>
+
+<section id="templates" class="panel">
+<h2 class="template-heading">Шаблоны сообщений</h2>
+<p class="template-description">Готовые сообщения для продолжения разговора с кандидатом. Выберите ситуацию, при необходимости укажите имя и скопируйте текст.</p>
+<label class="field"><span>Ситуация</span><select id="templateScenario">
+<option value="read">Прочитал информацию, но не ответил</option>
+<option value="interested">1. Заинтересован, готов двигаться дальше</option>
+<option value="questions">2. Есть вопросы</option>
+<option value="thinking">3. Нужно время подумать</option>
+<option value="declined">4. Предложение неактуально</option>
+</select></label>
+<label class="field hidden" id="templateTimingWrap"><span>Когда отправлять</span><select id="templateTiming">
+<option value="now">Сразу после ответа</option>
+<option value="week">Через 7 дней</option>
+</select></label>
+<p class="template-delay-note hidden" id="templateDelayNote">Отправка через 7 дней не автоматическая: шаблон нужно скопировать и отправить самостоятельно.</p>
+<label class="field"><span>Имя кандидата (необязательно)</span><input id="templateCandidateName" autocomplete="off" placeholder="Например, Александр"></label>
+<div class="preview template-preview">
+<h2>Готовое сообщение</h2>
+<pre id="templatePreview"></pre>
+</div>
+<button type="button" id="templateCopy" class="template-copy">Скопировать сообщение</button>
+<p id="templateStatus" class="status" aria-live="polite"></p>
 </section>
 </section></main>
 <script>
@@ -436,6 +470,38 @@ g,
 ].join("\n")}
 function updateMsg(){updateVariantChoices();let mode=radio("mode",mf);$("position").required=mode!=="mog";const city=$("city").value,extra=payoutDetails().join("; ");$("citySummary").innerHTML=mode==="mog"?"<strong>"+city+"</strong><span>Доп. текст про МОГ</span>":"<strong>"+city+"</strong><span>ЕДВ: "+payout()+(extra?" / "+extra:"")+"</span>";$("messagePreview").textContent=msg()}
 $("processingCity").addEventListener("change",()=>{if($("processingCity").value){$("city").value=$("processingCity").value;updateMsg()}});mf.addEventListener("input",updateMsg);mf.addEventListener("change",updateMsg);$("copyMessage").onclick=()=>{if(mf.reportValidity())copy(msg(),$("messageStatus"))};mf.onreset=()=>setTimeout(updateMsg,0);
+
+/* Независимая от Google Таблиц библиотека сообщений. Новые сценарии добавляются сюда. */
+const FOLLOWUP_TEMPLATES={
+ read:"Добрый день! Подскажите, удалось ознакомиться с информацией, которую я вам отправил?\n\nХочу понять, насколько для вас сейчас актуально наше предложение, чтобы не беспокоить лишними сообщениями.\n\n1. Всё интересно, готов двигаться дальше.\n2. Есть вопросы, хотелось бы уточнить некоторые моменты.\n3. Пока сомневаюсь, нужно время подумать.\n4. Предложение больше неактуально.\n\nМожете просто отправить цифру. В зависимости от ответа подскажу, что делать дальше.",
+ interested:"Отлично, тогда двигаемся дальше.\n\nДля согласования вашей кандидатуры понадобятся документы. Дублирую список:\n\n1. Паспорт — первые две страницы.\n2. Военный билет — первая страница и страница с категорией годности.\n3. СНИЛС.\n4. ИНН.\n5. Водительское удостоверение (если есть).\n\nНапишите, какие документы уже есть на руках, и подскажу, как их передать для согласования.",
+ questions:"Хорошо, давайте разберёмся.\n\nНапишите, что именно хотите уточнить или какие моменты вызывают вопросы.\n\nМожете написать текстом, записать голосовое или можем созвониться. Как вам удобнее.",
+ thinking:"Понял вас, тогда пока не тороплю.\n\nДавайте вернёмся к этому вопросу через неделю. Заодно будет время всё обдумать.\n\nЕсли за это время появятся вопросы, пишите.",
+ thinkingWeek:"Добрый день! Возвращаюсь к нашему разговору, как и договаривались.\n\nНу что, получилось определиться с предложением или пока остались сомнения?\n\nЕсли появились вопросы, можем их обсудить.",
+ declined:"Понял, спасибо, что ответили.\n\nТогда закрываю вашу заявку, больше по этому предложению беспокоить не буду.\n\nХорошего дня!"
+};
+function templateMessage(){
+ const scenario=$("templateScenario").value;
+ const key=scenario==="thinking"&&$("templateTiming").value==="week"?"thinkingWeek":scenario;
+ const base=FOLLOWUP_TEMPLATES[key]||FOLLOWUP_TEMPLATES.read;
+ const name=$("templateCandidateName").value.trim().replace(/\s+/g," ");
+ if(!name)return base;
+ if(key==="read"||key==="thinkingWeek")return base.replace(/^Добрый день!/, "Добрый день, "+name+"!");
+ return name+", "+base.charAt(0).toLowerCase()+base.slice(1);
+}
+function renderTemplateMessage(){
+ const thinking=$("templateScenario").value==="thinking";
+ $("templateTimingWrap").classList.toggle("hidden",!thinking);
+ $("templateDelayNote").classList.toggle("hidden",!thinking||$("templateTiming").value!=="week");
+ $("templatePreview").textContent=templateMessage();
+ $("templateStatus").textContent="";
+}
+$("templateScenario").addEventListener("change",()=>{$("templateTiming").value="now";renderTemplateMessage()});
+$("templateTiming").addEventListener("change",renderTemplateMessage);
+$("templateCandidateName").addEventListener("input",renderTemplateMessage);
+$("templateCopy").addEventListener("click",()=>copy(templateMessage(),$("templateStatus")));
+renderTemplateMessage();
+
 conditional();updateMsg();if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js"));
 </script>
 </body></html>

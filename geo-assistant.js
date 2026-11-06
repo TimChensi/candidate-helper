@@ -84,7 +84,7 @@ function levenshtein(a,b,cap){
 function rankPlace(p,q,allowFuzzy){
  let best=999;
  for(const v of p.matchTexts){
-  if(v===q)best=Math.min(best,0);
+  if(v===q)best=Math.min(best,v===p.searchName?0:0.25);
   else if(v.startsWith(q))best=Math.min(best,1);
   else if(v.split(" ").some(w=>w.startsWith(q)))best=Math.min(best,2);
   else if(v.includes(q))best=Math.min(best,3);
@@ -137,7 +137,7 @@ function renderSuggestions(){
   const top=document.createElement("span");top.className="geo-option-name";top.textContent=p.name;
   const sub=document.createElement("small");sub.textContent=optionText(p);
   btn.append(top,sub);
-  btn.addEventListener("pointerdown",e=>e.preventDefault());
+  btn.addEventListener("pointerdown",e=>{e.preventDefault();choosePlace(p)});
   btn.addEventListener("click",()=>choosePlace(p));
   suggestions.append(btn);
  }
@@ -150,9 +150,11 @@ function exactPlace(value){
  if(selected&&norm(input.value)===typed&&
    (typed===selected.searchName||
     (selected.kind==="city"&&typed===norm(selected.name+", "+selected.region))))return selected;
- const matches=items.filter(p=>p.matchTexts.includes(typed)||p.kind==="city"&&norm(p.name+", "+p.region)===typed);
- if(matches.length!==1)return null;
- return matches[0];
+ const canonical=items.filter(p=>p.searchName===typed||p.kind==="city"&&norm(p.name+", "+p.region)===typed);
+ if(canonical.length===1)return canonical[0];
+ if(canonical.length>1)return null;
+ const matches=items.filter(p=>p.aliases.includes(typed));
+ return matches.length===1?matches[0]:null;
 }
 function haversine(a,b){
  const rad=Math.PI/180,dl=(b.lat-a.lat)*rad,do2=(b.lon-a.lon)*rad;

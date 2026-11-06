@@ -219,12 +219,12 @@ function updateNearest(){
    item.names[0]));
   appendText(line,"span","geo-nearest-km","~"+km.toLocaleString("ru-RU")+" км");
   li.append(line);
-  const sub=item.region?"Ориентир: "+item.place.name+" (регион, приблизительно)":item.names.length>1?"Несколько вариантов оформления":"По прямой";
+  const sub=item.region?"Ориентир: "+(item.place.anchor||item.place.name)+" (регион, приблизительно)":item.names.length>1?"Несколько вариантов оформления":"По прямой";
   appendText(li,"small","geo-nearest-sub",sub);
   container.append(li);
  }
  results.append(container);
- note.textContent=(place.kind==="region"?"Для "+place.name+" использован ориентир "+place.anchor+". ":"")+
+ note.textContent=(place.kind==="region"?"Для региона «"+place.name+"» использован ориентир: "+place.anchor+". ":"")+
   "Расстояния по прямой, не по дорогам. Для регионов точка оформления может отличаться.";
 }
 input.addEventListener("input",()=>{

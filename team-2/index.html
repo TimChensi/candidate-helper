@@ -257,13 +257,14 @@
 <option value="questions">2. Есть вопросы</option>
 <option value="thinking">3. Нужно время подумать</option>
 <option value="declined">4. Предложение неактуально</option>
+<option value="packing">Что брать с собой</option>
 </select></label>
 <label class="field hidden" id="templateTimingWrap"><span>Когда отправлять</span><select id="templateTiming">
 <option value="now">Сразу после ответа</option>
 <option value="week">Через 7 дней</option>
 </select></label>
 <p class="template-delay-note hidden" id="templateDelayNote">Отправка через 7 дней не автоматическая: шаблон нужно скопировать и отправить самостоятельно.</p>
-<label class="field"><span>Имя кандидата (необязательно)</span><input id="templateCandidateName" autocomplete="off" placeholder="Например, Александр"></label>
+<label class="field" id="templateCandidateNameWrap"><span>Имя кандидата (необязательно)</span><input id="templateCandidateName" autocomplete="off" placeholder="Например, Александр"></label>
 <div class="preview template-preview">
 <h2>Готовое сообщение</h2>
 <pre id="templatePreview"></pre>
@@ -629,12 +630,14 @@ const FOLLOWUP_TEMPLATES={
  questions:"Хорошо, давайте разберёмся.\n\nНапишите, что именно хотите уточнить или какие моменты вызывают вопросы.\n\nМожете написать текстом, записать голосовое или можем созвониться. Как вам удобнее.",
  thinking:"Понял вас, тогда пока не тороплю.\n\nДавайте вернёмся к этому вопросу через неделю. Заодно будет время всё обдумать.\n\nЕсли за это время появятся вопросы, пишите.",
  thinkingWeek:"Добрый день! Возвращаюсь к нашему разговору, как и договаривались.\n\nНу что, получилось определиться с предложением или пока остались сомнения?\n\nЕсли появились вопросы, можем их обсудить.",
- declined:"Понял, спасибо, что ответили.\n\nТогда закрываю вашу заявку, больше по этому предложению беспокоить не буду.\n\nХорошего дня!"
+ declined:"Понял, спасибо, что ответили.\n\nТогда закрываю вашу заявку, больше по этому предложению беспокоить не буду.\n\nХорошего дня!",
+ packing:"Что взять с собой в дорогу\n\nМного вещей собирать не нужно. Достаточно взять документы и немного личных вещей на первое время.\n\nДокументы:\nПаспорт (обязательно оригинал).\nИНН (можно копию).\nСНИЛС (можно копию).\nВоенный билет (если есть).\nВодительское удостоверение (если есть).\n\nЛичные вещи (по желанию):\nНемного сменной и тёплой одежды: кофта, штаны, носки.\nСредства личной гигиены.\nНебольшая аптечка с необходимыми лекарствами.\nПростой кнопочный телефон для связи, помимо основного смартфона.\n\nЧто лучше не брать:\nБольшие чемоданы и много лишней одежды.\nДорогие вещи и ненужную технику.\nКрупные суммы наличных.\n\nГлавное - не забыть документы. Остальное берите по необходимости. Достаточно небольшой сумки с самыми нужными вещами."
 };
 function templateMessage(){
  const scenario=$("templateScenario").value;
  const key=scenario==="thinking"&&$("templateTiming").value==="week"?"thinkingWeek":scenario;
  const base=FOLLOWUP_TEMPLATES[key]||FOLLOWUP_TEMPLATES.read;
+ if(key==="packing")return base;
  const name=$("templateCandidateName").value.trim().replace(/\s+/g," ");
  if(!name)return base;
  if(key==="read"||key==="thinkingWeek")return base.replace(/^Добрый день!/, "Добрый день, "+name+"!");
@@ -642,6 +645,7 @@ function templateMessage(){
 }
 function renderTemplateMessage(){
  const thinking=$("templateScenario").value==="thinking";
+ $("templateCandidateNameWrap").classList.toggle("hidden",$("templateScenario").value==="packing");
  $("templateTimingWrap").classList.toggle("hidden",!thinking);
  $("templateDelayNote").classList.toggle("hidden",!thinking||$("templateTiming").value!=="week");
  $("templatePreview").textContent=templateMessage();

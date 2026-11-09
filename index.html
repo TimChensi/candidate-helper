@@ -138,7 +138,7 @@
 <fieldset class="group"><legend>Водительское удостоверение</legend><div class="chips"><label><input type="checkbox" name="license" value="A"><span>A</span></label><label><input type="checkbox" name="license" value="B"><span>B</span></label><label><input type="checkbox" name="license" value="C"><span>C</span></label><label><input type="checkbox" name="license" value="D"><span>D</span></label><label><input type="checkbox" name="license" value="E"><span>E</span></label><label><input type="checkbox" id="tractor"><span>Тракторные: все типы</span></label></div><label class="field" style="margin-top:10px"><span>Другие права / уточнение</span><input id="licenseNotes"></label></fieldset>
 <label class="field"><span>Пожелания по направлению</span><textarea id="directionWish"></textarea></label>
 <label class="field"><span>Готовность отправления</span><input id="readiness" placeholder="Например: готов сейчас / после 25 октября / через неделю"></label>
-<label class="field"><span>Город оформления</span><select id="processingCity"><option value="">Не выбран</option><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Волгоград</option><option>Набережные Челны</option><option>Казань</option><option>Татарстан</option></select></label>
+<label class="field"><span>Город оформления</span><select id="processingCity"><option value="">Не выбран</option><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Волгоград</option><option>Набережные Челны</option><option>Тольятти</option><option>Казань</option><option>Татарстан</option></select></label>
 <details class="optional-details tracker-details"><summary>Дальнейшая работа</summary>
 <div class="grid tracker-grid">
 <label class="field"><span>Этап</span><select id="candidateStage">
@@ -254,7 +254,7 @@
 <form id="messageForm">
 <div class="grid"><label class="field"><span>Имя отправителя</span><input id="senderName" value="Артем"></label><label class="field"><span>Имя кандидата</span><input id="candidateName"></label></div>
 <label class="field"><span>Должность / направление *</span><input id="position" required placeholder="МОГ (охрана воздушного пространства)"></label>
-<div class="grid"><label class="field"><span>Город оформления *</span><select id="city"><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Волгоград</option><option>Набережные Челны</option><option>Казань</option><option>Татарстан</option></select></label><label id="lipetskWrap" class="field hidden"><span>Вариант Липецка</span><select id="lipetskType"><option value="БПЛА">БПЛА - 3,6 млн ₽</option><option value="Обычный">Обычный - 3,1 млн ₽</option></select></label></div>
+<div class="grid"><label class="field"><span>Город оформления *</span><select id="city"><option>Ярославль</option><option>Смоленск</option><option>Липецк</option><option>Оренбург</option><option>Воронеж</option><option>Тула</option><option>Волгоград</option><option>Набережные Челны</option><option>Тольятти</option><option>Казань</option><option>Татарстан</option></select></label><label id="lipetskWrap" class="field hidden"><span>Вариант Липецка</span><select id="lipetskType"><option value="БПЛА">БПЛА - 3,6 млн ₽</option><option value="Обычный">Обычный - 3,1 млн ₽</option></select></label></div>
 <fieldset class="group"><legend>Формат сообщения</legend><div class="seg"><label><input type="radio" name="mode" value="short" checked><span>Короткий</span></label><label><input type="radio" name="mode" value="full"><span>Подробнее</span></label><label><input type="radio" name="mode" value="mog"><span>Подробнее про МОГ</span></label></div></fieldset>
 <div id="citySummary" class="summary"></div>
 <div class="preview"><h2>Готовое сообщение</h2><pre id="messagePreview"></pre></div>
@@ -316,6 +316,7 @@
 <option value="Тула"></option>
 <option value="Волгоград"></option>
 <option value="Набережные Челны"></option>
+<option value="Тольятти"></option>
 <option value="Казань"></option>
 <option value="Татарстан"></option>
 </datalist>
@@ -331,7 +332,7 @@
 </section></main>
 <script>
 const GOOGLE_SCRIPT_URL=atob("aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5cUQ5eDF0ZXoyR2dEXzJ0a05EREp5WDR3WjMzMXRORmJzVTIyeXlTNmhBdGxBQUZ6dEZhMlQ0Z2FGQVBJSE9iUjF5dy9leGVj");
-const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 000 000 ₽"],"Липецк":["3 600 000 ₽","3 100 000 ₽"],"Оренбург":["2 000 000 ₽"],"Воронеж":["2 600 000 ₽"],"Тула":["2 000 000 ₽"],"Волгоград":["3 400 000 ₽"],"Набережные Челны":["2 500 000 ₽"],"Казань":["2 900 000 ₽"],"Татарстан":["2 900 000 ₽"]};
+const CITY_DATA={"Ярославль":["2 000 000 ₽"],"Смоленск":["2 000 000 ₽"],"Липецк":["3 600 000 ₽","3 100 000 ₽"],"Оренбург":["2 000 000 ₽"],"Воронеж":["2 600 000 ₽"],"Тула":["2 000 000 ₽"],"Волгоград":["3 400 000 ₽"],"Набережные Челны":["2 500 000 ₽"],"Тольятти":["2 000 000 ₽"],"Казань":["2 900 000 ₽"],"Татарстан":["2 900 000 ₽"]};
 const $=id=>document.getElementById(id), radio=(n,r=document)=>r.querySelector('input[name="'+n+'"]:checked')?.value||"";
 function activatePanel(id){if(id==="agreement")mountSharedForm("create");document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));const btn=document.querySelector('.tab[data-target="'+id+'"]');if(btn)btn.classList.add("active");const panel=$(id);if(panel)panel.classList.add("active")}document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activatePanel(b.dataset.target));
 const form=$("candidateForm");

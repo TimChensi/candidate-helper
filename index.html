@@ -68,12 +68,25 @@
 .geo-attribution{display:block;margin-top:8px;font-size:10px;color:#64748b;line-height:1.4}
 .geo-attribution a{color:inherit;text-decoration:underline}
 
+
+/* Заявка на билеты: отдельная форма без сохранения в таблицы */
+.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ticket-title{font-size:20px;line-height:1.25;margin:0 0 8px;font-weight:850}
+.ticket-note{color:#64748b;font-size:13px;line-height:1.5;margin:0 0 20px}
+.ticket-form .grid{margin-bottom:0}
+.ticket-form .field{min-width:0}
+.ticket-preview{margin-top:8px}
+.ticket-preview pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.ticket-actions{margin-top:14px}
+.ticket-actions .primary{width:100%}
+@media(max-width:640px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.tab{font-size:12px;padding:11px 6px}}
+
 </style>
 </head>
 <body>
 <main class="shell"><section class="card">
 <p class="eyebrow">Работа с кандидатами</p><h1>Кандидаты</h1><p class="sub">Согласование и подготовка сообщения.</p>
-<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button><button class="tab" data-target="templates">Шаблоны</button></nav>
+<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button><button class="tab" data-target="templates">Шаблоны</button><button class="tab" data-target="ticketRequest">Заявка на билеты</button></nav>
 
 <section id="agreement" class="panel active">
 <form id="candidateForm">
@@ -272,6 +285,47 @@
 </div>
 <button type="button" id="templateCopy" class="template-copy">Скопировать сообщение</button>
 <p id="templateStatus" class="status" aria-live="polite"></p>
+</section>
+
+<section id="ticketRequest" class="panel">
+<h2 class="ticket-title">Заявка на билеты</h2>
+<p class="ticket-note">Заполните данные и скопируйте готовую заявку для отправки в мессенджере. Данные не записываются в Google Таблицу.</p>
+<form id="ticketForm" class="ticket-form" autocomplete="off">
+<label class="field"><span>Ф.И.О. *</span><input id="ticketFullName" type="text" placeholder="Иванов Иван Иванович" required></label>
+<div class="grid">
+<label class="field"><span>Дата рождения *</span><input id="ticketBirthDate" type="date" required></label>
+<label class="field"><span>Телефон *</span><input id="ticketPhone" type="tel" inputmode="tel" placeholder="89XXXXXXXXX" required></label>
+</div>
+<div class="grid">
+<label class="field"><span>ИНН *</span><input id="ticketInn" type="text" inputmode="numeric" placeholder="12 цифр" required></label>
+<label class="field"><span>СНИЛС *</span><input id="ticketSnils" type="text" inputmode="text" placeholder="000-000-000 00" required></label>
+</div>
+<label class="field"><span>Паспорт *</span><input id="ticketPassport" type="text" inputmode="text" placeholder="Серия и номер" required></label>
+<label class="field"><span>Специальность *</span><input id="ticketSpecialty" type="text" placeholder="в МОГ (в Питере)" required></label>
+<div class="grid">
+<label class="field"><span>Отправка из *</span><input id="ticketFrom" type="text" placeholder="Санкт-Петербург" required></label>
+<label class="field"><span>Прибытие в *</span><input id="ticketTo" type="text" list="ticketDestinationSuggestions" placeholder="Набережные Челны" required></label>
+</div>
+<datalist id="ticketDestinationSuggestions">
+<option value="Ярославль"></option>
+<option value="Смоленск"></option>
+<option value="Липецк"></option>
+<option value="Оренбург"></option>
+<option value="Воронеж"></option>
+<option value="Тула"></option>
+<option value="Волгоград"></option>
+<option value="Набережные Челны"></option>
+<option value="Казань"></option>
+<option value="Татарстан"></option>
+</datalist>
+<label class="field"><span>Дата готовности отправки *</span><input id="ticketDepartureDate" type="date" required></label>
+<div class="preview ticket-preview"><h2>Готовая заявка</h2><pre id="ticketPreview"></pre></div>
+<div class="actions ticket-actions">
+<button type="button" class="primary" id="ticketCopy">Скопировать заявку</button>
+<button type="reset" class="ghost" id="ticketReset">Очистить</button>
+</div>
+<p id="ticketStatus" class="status" aria-live="polite"></p>
+</form>
 </section>
 </section></main>
 <script>
@@ -649,6 +703,49 @@ $("templateTiming").addEventListener("change",renderTemplateMessage);
 $("templateCandidateName").addEventListener("input",renderTemplateMessage);
 $("templateCopy").addEventListener("click",()=>copy(templateMessage(),$("templateStatus")));
 renderTemplateMessage();
+
+/* Заявка на билеты: данные остаются только в форме и буфере обмена. */
+const ticketForm=$("ticketForm");
+function ticketFormattedDate(id){
+ const raw=$(id).value;
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(raw))return"";
+ const [year,month,day]=raw.split("-");
+ return day+"."+month+"."+year;
+}
+function ticketRequestText(){
+ const value=id=>$(id).value.trim();
+ return [
+  "Ф.И.О: "+value("ticketFullName"),
+  "Дата Рождения: "+ticketFormattedDate("ticketBirthDate"),
+  "Телефон: "+value("ticketPhone"),
+  "ИНН: "+value("ticketInn"),
+  "СНИЛС: "+value("ticketSnils"),
+  "Паспорт: "+value("ticketPassport"),
+  "Специальность: "+value("ticketSpecialty"),
+  "",
+  "Отправка из: "+value("ticketFrom"),
+  "Прибытие в: "+value("ticketTo"),
+  "Дата готовности отправки: "+ticketFormattedDate("ticketDepartureDate")
+ ].join("\n");
+}
+function refreshTicketPreview(){
+ $("ticketPreview").textContent=ticketRequestText();
+ $("ticketStatus").textContent="";
+ $("ticketStatus").className="status";
+}
+ticketForm.addEventListener("input",refreshTicketPreview);
+ticketForm.addEventListener("change",refreshTicketPreview);
+ticketForm.addEventListener("submit",e=>e.preventDefault());
+ticketForm.addEventListener("reset",()=>setTimeout(refreshTicketPreview,0));
+$("ticketCopy").addEventListener("click",()=>{
+ if(!ticketForm.reportValidity()){
+  $("ticketStatus").textContent="Заполните все поля заявки";
+  $("ticketStatus").className="status error";
+  return;
+ }
+ copy(ticketRequestText(),$("ticketStatus"));
+});
+refreshTicketPreview();
 
 conditional();updateMsg();if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js"));
 </script>

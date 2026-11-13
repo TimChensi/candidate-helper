@@ -67,12 +67,15 @@
 .geo-attribution{display:block;margin-top:8px;font-size:10px;color:#64748b;line-height:1.4}
 .geo-attribution a{color:inherit;text-decoration:underline}
 
+
+/* Старые технические поля остаются в DOM ради совместимости с API, но не показываются. */
+.tracker-details{display:none!important}
 </style>
 </head>
 <body>
 <main class="shell"><section class="card">
 <p class="eyebrow">Вторая команда / Тимофей</p><h1>Кандидаты 2</h1><p class="sub">Отдельный учёт кандидатов и подготовка сообщений.</p>
-<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="todayPanel">Сегодня</button><button class="tab" data-target="message">Сообщение</button><button class="tab" data-target="templates">Шаблоны</button></nav>
+<nav class="tabs"><button class="tab active" data-target="agreement">Согласование</button><button class="tab" data-target="editCandidate">Дополнить</button><button class="tab" data-target="message">Сообщение</button><button class="tab" data-target="templates">Шаблоны</button></nav>
 
 
 <section id="agreement" class="panel active">

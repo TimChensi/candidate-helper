@@ -2,6 +2,7 @@
 (function(){
 "use strict";
 const data=window.CANDIDATE_GEO_DATA;
+const cityInfo=window.CANDIDATE_CITY_INFO;
 const input=document.getElementById("residenceCity");
 const select=document.getElementById("processingCity");
 const suggestions=document.getElementById("geoCitySuggestions");
@@ -211,16 +212,49 @@ function updateNearest(){
  }
  const container=document.createElement("ol");
  container.className="geo-nearest-items";
+
  for(const [index,item] of nearest.entries()){
-  const li=document.createElement("li"),line=document.createElement("div"),km=Math.round(item.km);
+  const li=document.createElement("li");
   li.className="geo-nearest-item";
-  appendText(line,"strong","geo-nearest-name",(index+1)+". "+(item.names.length>1?
+  const action=document.createElement("button");
+  action.type="button";
+  action.className="geo-nearest-action";
+  const detailId="geo-nearest-expanded-"+index;
+  action.setAttribute("aria-controls",detailId);
+  action.setAttribute("aria-expanded","false");
+  const line=document.createElement("span");
+  line.className="geo-nearest-line";
+  const name=item.names.length>1?
    (item.key==="казань"?"Казань / Татарстан":item.place.name+" ("+item.names.length+" направления)") :
-   item.names[0]));
-  appendText(line,"span","geo-nearest-km","~"+km.toLocaleString("ru-RU")+" км");
-  li.append(line);
-  const sub=item.region?"Ориентир: "+(item.place.anchor||item.place.name)+" (регион, приблизительно)":item.names.length>1?"Несколько вариантов оформления":"По прямой";
-  appendText(li,"small","geo-nearest-sub",sub);
+   item.names[0];
+  appendText(line,"strong","geo-nearest-name",(index+1)+". "+name);
+  appendText(line,"span","geo-nearest-km","~"+Math.round(item.km).toLocaleString("ru-RU")+" км");
+  action.append(line);
+  const payment=cityInfo?cityInfo.payoutForNames(item.names):"Выплата не указана";
+  appendText(action,"span","geo-nearest-payment","ЕДВ: "+payment);
+  const sub=item.region?"Ориентир: "+(item.place.anchor||item.place.name)+" (регион, приблизительно)":
+   item.names.length>1?"Несколько вариантов оформления":"Расстояние по прямой";
+  appendText(action,"small","geo-nearest-hint",sub);
+  appendText(action,"span","geo-nearest-chevron","⌄");
+  const expanded=document.createElement("div");
+  expanded.id=detailId;
+  expanded.className="geo-nearest-expanded";
+  expanded.hidden=true;
+  let rendered=false;
+  action.addEventListener("click",()=>{
+   const opening=expanded.hidden;
+   for(const other of container.querySelectorAll(".geo-nearest-expanded"))other.hidden=true;
+   for(const other of container.querySelectorAll(".geo-nearest-action"))other.setAttribute("aria-expanded","false");
+   if(opening){
+    if(!rendered&&cityInfo){
+     for(const direction of item.names)cityInfo.renderCity(expanded,direction,true);
+     rendered=true;
+    }
+    expanded.hidden=false;
+    action.setAttribute("aria-expanded","true");
+   }
+  });
+  li.append(action,expanded);
   container.append(li);
  }
  results.append(container);

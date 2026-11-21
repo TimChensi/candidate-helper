@@ -260,6 +260,7 @@
 <option value="questions">2. Есть вопросы</option>
 <option value="thinking">3. Нужно время подумать</option>
 <option value="declined">4. Предложение неактуально</option>
+<option value="qualification">Вопросы для квалификации кандидата</option>
 <option value="packing">Что брать с собой</option>
 </select></label>
 <label class="field hidden" id="templateTimingWrap"><span>Когда отправлять</span><select id="templateTiming">
@@ -628,6 +629,7 @@ $("processingCity").addEventListener("change",()=>{if($("processingCity").value)
 
 /* Независимая от Google Таблиц библиотека сообщений. Новые сценарии добавляются сюда. */
 const FOLLOWUP_TEMPLATES={
+  qualification:"Пожалуйста, ответьте на вопросы:\n\n1. Ваши ФИО?\n2. Сколько вам полных лет?\n3. В каком городе сейчас проживаете?\n4. В каком городе у вас прописка?\n5. Какое у вас гражданство?\n6. Какая категория годности указана в военном билете (А, Б, В, Г, Д)? Если не помните, так и напишите.\n7. Проходили ли ранее военную службу? Если да, кем служили?\n8. Есть ли особенности по здоровью, которые стоит учитывать?\n9. Оформлена ли у вас группа инвалидности?\n10. Были ли ранее проблемы с законом или судимости?\n11. Есть ли водительские права? Какие категории?\n12. Когда ориентировочно готовы приехать на оформление?\n\nМожете ответить прямо по пунктам. Если какой-то вопрос требует уточнения, обсудим его отдельно.",
  read:"Добрый день! Подскажите, удалось ознакомиться с информацией, которую я вам отправил?\n\nХочу понять, насколько для вас сейчас актуально наше предложение, чтобы не беспокоить лишними сообщениями.\n\n1. Всё интересно, готов двигаться дальше.\n2. Есть вопросы, хотелось бы уточнить некоторые моменты.\n3. Пока сомневаюсь, нужно время подумать.\n4. Предложение больше неактуально.\n\nМожете просто отправить цифру. В зависимости от ответа подскажу, что делать дальше.",
  interested:"Отлично, тогда двигаемся дальше.\n\nДля согласования вашей кандидатуры понадобятся документы. Дублирую список:\n\n1. Паспорт - первые две страницы.\n2. Военный билет - первая страница и страница с категорией годности.\n3. СНИЛС.\n4. ИНН.\n5. Водительское удостоверение (если есть).\n\nНапишите, какие документы уже есть на руках, и подскажу, как их передать для согласования.",
  questions:"Хорошо, давайте разберёмся.\n\nНапишите, что именно хотите уточнить или какие моменты вызывают вопросы.\n\nМожете написать текстом, записать голосовое или можем созвониться. Как вам удобнее.",
@@ -640,7 +642,7 @@ function templateMessage(){
  const scenario=$("templateScenario").value;
  const key=scenario==="thinking"&&$("templateTiming").value==="week"?"thinkingWeek":scenario;
  const base=FOLLOWUP_TEMPLATES[key]||FOLLOWUP_TEMPLATES.read;
- if(key==="packing")return base;
+ if(key==="packing"||key==="qualification")return base;
  const name=$("templateCandidateName").value.trim().replace(/\s+/g," ");
  if(!name)return base;
  if(key==="read"||key==="thinkingWeek")return base.replace(/^Добрый день!/, "Добрый день, "+name+"!");
@@ -648,7 +650,7 @@ function templateMessage(){
 }
 function renderTemplateMessage(){
  const thinking=$("templateScenario").value==="thinking";
- $("templateCandidateNameWrap").classList.toggle("hidden",$("templateScenario").value==="packing");
+ $("templateCandidateNameWrap").classList.toggle("hidden",["packing","qualification"].includes($("templateScenario").value));
  $("templateTimingWrap").classList.toggle("hidden",!thinking);
  $("templateDelayNote").classList.toggle("hidden",!thinking||$("templateTiming").value!=="week");
  $("templatePreview").textContent=templateMessage();
